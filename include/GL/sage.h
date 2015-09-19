@@ -90,6 +90,11 @@ void sage_fini (void);
  */
 void sage_swap (int interval);
 
+#ifdef __MSDOS__
+typedef void (*SageProc) ();
+SageProc sage_GetProcAddress (const char *procname);
+#endif
+
 #ifdef __cplusplus
 }
 #endif
