@@ -3,11 +3,13 @@
 #include <GL/gl.h>
 
 
-#define NYI()					\
+/*#define NYI()					\
     do {					\
 	printf(">>>%s:\n", __FUNCTION__);	\
 	fflush(stdout);				\
     } while (0)
+#endif*/
+#define NYI() do {} while (0)
 
 
 GLAPI void GLAPIENTRY
