@@ -128,3 +128,5 @@ clean::
 realclean:: clean
 	-$(RM) x86/x86.inc
 	-$(RM) lib/libGL.a
+	-$(RM) lib/gl.dxe
+	-$(RM) lib/libigl.a
