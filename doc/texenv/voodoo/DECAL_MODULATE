@@ -1,0 +1,14 @@
+DECAL -> MODULATE
+
+RGB/ALPHA                       C1                              f * A0
+RGB/LUMINANCE                   C1 * C0                         f
+RGB/LUMINANCE_ALPHA             C1 * C0                         f * A0
+RGB/INTENSITY                   C1 * C0                         f * A0
+RGB/RGB                         C1 * C0                         f
+RGB/RGBA                        C1 * C0                         f * A0
+RGBA/ALPHA                      f * (1 - A1) + C1 * A1          f * A0
+RGBA/LUMINANCE                  (f * (1 - A1) + C1 * A1) * C0   f
+RGBA/LUMINANCE_ALPHA            (f * (1 - A1) + C1 * A1) * C0   f * A0
+RGBA/INTENSITY                  (f * (1 - A1) + C1 * A1) * C0   f * A0
+RGBA/RGB                        (f * (1 - A1) + C1 * A1) * C0   f
+RGBA/RGBA                       (f * (1 - A1) + C1 * A1) * C0   f * A0

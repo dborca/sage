@@ -1,0 +1,128 @@
+.PHONY: all clean realclean
+.SUFFIXES: .asm .o .rc .res
+.INTERMEDIATE: x86/x86gen.exe
+
+DRIVER ?= glide
+
+all: lib/opengl32.dll lib/libopengl32.a
+
+CC = mingw32-gcc
+CFLAGS = -Wall -W -pedantic
+CFLAGS += -O2
+CFLAGS += -ffast-math -DFAST_MATH
+CFLAGS += -I. -Iinclude -Idrivers
+CFLAGS += -g -Wno-unused
+LD = mingw32-gcc
+LDFLAGS =
+LDLIBS = -lm
+AS = nasmw
+ASFLAGS = -O6 -fwin32 -D__WIN32__ -Ix86/ -Imain/ --prefix _
+RC = windres
+RCFLAGS = -O coff
+
+# MSS begin
+ifeq ($(MSS),1)
+CFLAGS += -DMSS=1 -include mss.h
+LDFLAGS += -Llib
+LDLIBS += -lmss
+endif
+# MSS end
+
+CORE_SOURCES = \
+	util/cfg.c \
+	util/pow.c \
+	main/buffer.c \
+	main/color.c \
+	main/context.c \
+	main/cull.c \
+	main/depth.c \
+	main/stencil.c \
+	main/dlist.c \
+	main/enable.c \
+	main/get.c \
+	main/glapi.c \
+	main/glapic.c \
+	main/light.c \
+	main/matrix.c \
+	main/texture.c \
+	main/texstore.c \
+	main/texcodec.c \
+	main/texdef.c \
+	main/fog.c \
+	main/ext.c \
+	main/pixel.c \
+	main/raster.c \
+	main/attrib.c \
+	main/fake.c \
+	main/legacy.c \
+	util/alloc.c
+
+TNL_SOURCES = \
+	tnl/tnl.c \
+	tnl/tnl_prim.c \
+	tnl/tnl_pipeline.c \
+	tnl/tnl_setup.c \
+	tnl/imm_api.c \
+	tnl/imm_array.c \
+	tnl/imm_vertex.c \
+	tnl/sav_api.c \
+	tnl/sav_array.c \
+	tnl/sav_vertex.c
+
+ifeq ($(X86),1)
+CFLAGS += -DX86
+X86_SOURCES = \
+	x86/x86.c \
+	x86/cpuhard.c \
+	x86/cpusoft.asm \
+	x86/glapia.asm \
+	x86/x86_vertex.asm \
+	x86/x86_clip.asm \
+	x86/k3d_mat.asm \
+	x86/k3d_clip.asm \
+	x86/k3d_misc.asm \
+	x86/sse_vertex.asm \
+	x86/sse_mat.asm \
+	x86/sse_clip.asm \
+	x86/sse_misc.asm
+endif
+
+include drivers/$(DRIVER)/config
+DRIVER_SOURCES += \
+	drivers/$(DRIVER)/wgl.c
+
+SOURCES = $(CORE_SOURCES) $(TNL_SOURCES) $(X86_SOURCES) $(DRIVER_SOURCES)
+
+OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
+
+.c.o:
+	$(CC) -o $@ $(CFLAGS) -c $<
+.asm.o:
+	$(AS) -o $@ $(ASFLAGS) $<
+.rc.res:
+	$(RC) -o $@ $(RCFLAGS) $<
+
+lib/opengl32.dll: $(OBJECTS) drivers/$(DRIVER)/opengl.res
+	$(LD) -o $@ -shared $(LDFLAGS) $^ $(LDLIBS) -Wl,-k
+#	$(LD) -o $@ -shared $(LDFLAGS) $^ $(LDLIBS)
+
+lib/libopengl32.a:
+	dlltool --dllname opengl32.dll --def drivers/opengl32.def --output-lib $@ -k
+
+$(X86_SOURCES:.asm=.o): x86/x86.inc
+
+x86/x86.inc: x86/x86gen.exe
+	$< -o $@
+
+x86/x86gen.exe: x86/x86gen.c glinternal.h main/context.h main/matrix.h tnl/tnl.h x86/cpu.h
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+
+clean::
+	-$(RM) $(OBJECTS)
+	-$(RM) drivers/$(DRIVER)/opengl.res
+	-$(RM) x86/*.o
+
+realclean:: clean
+	-$(RM) x86/x86.inc
+	-$(RM) lib/opengl32.dll
+	-$(RM) lib/libopengl32.a

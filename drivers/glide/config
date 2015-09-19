@@ -1,0 +1,42 @@
+.INTERMEDIATE: drivers/$(DRIVER)/x86/drvgen.exe
+
+GLIDESDK ?= .
+
+CFLAGS += -I$(GLIDESDK)/include
+LDFLAGS += -L$(GLIDESDK)/lib
+LDLIBS += -lglide3x
+ASFLAGS += -Idrivers/$(DRIVER)/x86/
+
+DRIVER_SOURCES += \
+	drivers/$(DRIVER)/drv_api.c \
+	drivers/$(DRIVER)/drv_cb.c \
+	drivers/$(DRIVER)/drv_setup.c \
+	drivers/$(DRIVER)/drv_tex.c \
+	drivers/$(DRIVER)/drv_texman.c \
+	drivers/$(DRIVER)/drv_tri.c \
+	drivers/$(DRIVER)/drv_vb.c
+
+ifeq ($(X86),1)
+DRIVER_SOURCES += \
+	drivers/$(DRIVER)/x86/k3d_emit.asm \
+	drivers/$(DRIVER)/x86/sse_emit.asm
+endif
+
+drivers/$(DRIVER)/x86/k3d_emit.o: drivers/$(DRIVER)/x86/k3d_emit.asm drivers/$(DRIVER)/x86/k3d_vbtmp.asm drivers/$(DRIVER)/x86/drv.inc
+	$(AS) -o $@ $(ASFLAGS) $<
+
+drivers/$(DRIVER)/x86/sse_emit.o: drivers/$(DRIVER)/x86/sse_emit.asm drivers/$(DRIVER)/x86/sse_vbtmp.asm drivers/$(DRIVER)/x86/drv.inc
+	$(AS) -o $@ $(ASFLAGS) $<
+
+drivers/$(DRIVER)/x86/drv.inc: drivers/$(DRIVER)/x86/drvgen.exe
+	$< -o $@
+
+drivers/$(DRIVER)/x86/drvgen.exe: drivers/$(DRIVER)/x86/drvgen.c glinternal.h main/context.h drivers/$(DRIVER)/drv.h
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+
+clean::
+	-$(RM) drivers/$(DRIVER)/x86/k3d_emit.o
+	-$(RM) drivers/$(DRIVER)/x86/sse_emit.o
+
+realclean::
+	-$(RM) drivers/$(DRIVER)/x86/drv.inc

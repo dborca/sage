@@ -1,0 +1,8 @@
+DECAL
+
+ALPHA                           undefined                       undefined
+LUMINANCE                       undefined                       undefined
+LUMINANCE_ALPHA                 undefined                       undefined
+INTENSITY                       undefined                       undefined
+RGB                             C0                              f
+RGBA                            f * (1 - A0) + C0 * A0          f

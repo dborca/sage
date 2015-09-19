@@ -1,0 +1,7 @@
+DRIVER_SOURCES = \
+	drivers/$(DRIVER)/drv_api.c \
+	drivers/$(DRIVER)/drv_cb.c \
+	drivers/$(DRIVER)/drv_setup.c \
+	drivers/$(DRIVER)/drv_tex.c \
+	drivers/$(DRIVER)/drv_tri.c \
+	drivers/$(DRIVER)/drv_vb.c

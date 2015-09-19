@@ -1,0 +1,27 @@
+Warning: this project halted about 9 years ago (in 2006) and I do not intend
+to ever bring it back.  The name Sage was a tribute to the stillborn Sage
+geometrical processor intended to accompany the never-released 3dfx Rampage.
+
+This is an open-source implementation of the OpenGL specification, a system
+for rendering interactive 3D graphics.  Its semblance to Mesa in design (and
+possibly some parts of code) is due to my involvement with Mesa at that time.
+
+I can't remember if it ever outperformed Mesa, as this project was primarily
+a sandbox for my experiments to overcome shortcomings of the then-already-aged
+3dfx cards: npot/large/compressed textures, fake/skipping some tcl stages,
+unsupported blending modes, etc.
+
+So here you go, without any support:
+
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.

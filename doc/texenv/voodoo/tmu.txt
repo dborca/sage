@@ -1,0 +1,26 @@
+unit = 0	tmu = 0		tmu0_source = 0		N/A
+				tmu1_source = 1
+
+    OpenGL[tmu0_source] active, Glide[0] active
+	we have to send [tmu0_source] data to Glide[0]
+
+		tmu = 1		tmu0_source = 1		switch
+				tmu1_source = 0
+
+    OpenGL[tmu1_source] active, Glide[1] active
+	we have to send [tmu1_source] data to Glide[1]
+	or we can send [tmu0_source:=tmu1_source] data to Glide[0] in passthrough mode
+
+
+unit = 1	tmu = 1		tmu0_source = 0		switch
+				tmu1_source = 1
+
+    OpenGL[tmu1_source] active, Glide[1] active
+	we have to send [tmu1_source] data to Glide[1]
+	or we can send [tmu0_source:=tmu1_source] data to Glide[0] in passthrough mode
+
+		tmu = 0		tmu0_source = 1		N/A
+				tmu1_source = 0
+
+    OpenGL[tmu0_source] active, Glide[0] active
+	we have to send [tmu0_source] data to Glide[0]

@@ -1,0 +1,8 @@
+MODULATE
+
+ALPHA                           f                               f * A0
+LUMINANCE                       f * C0                          f
+LUMINANCE_ALPHA                 f * C0                          f * A0
+INTENSITY                       f * C0                          f * A0
+RGB                             f * C0                          f
+RGBA                            f * C0                          f * A0

@@ -1,0 +1,11 @@
+       d        -d     pd - d - pd         pd
+t1 = ------ = ------ = ----------- = 1 - ------ = 1 - t2
+     d - pd   pd - d      pd - d         pd - d
+
+INTERP(d/(d-pd), A, B) = INTERP(t1, A, B) =
+    = A + t1 * (B - A) =
+    = A + (1 - t2) * (B - A) =
+    = A + B - A - t2 * B + t2 * A =
+    = B + t2 * A - t2 * B =
+    = B + t2 * (A - B) =
+INTERP(t2, B, A) = INTERP(pd/(pd-d), B, A)

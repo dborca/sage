@@ -1,0 +1,28 @@
+				primitive
+				    |
+      unclipped +-------------------+-------------------+ clipped
+		|					|
+	  drv_prim_tab				   tnl_prim_tab
+		|					|
+ direct +-------+-------+ mixed			    drv_point
+	|		|			    drv_line
+   fv_prim_tab     mv_prim_tab			    drv_triangle <----------+
+	|		|			    drv_quad		    |
+	v	    drv_point			    drv_clippedPolygon	    |
+	1	    drv_line				|		    |
+		    drv_triangle	 direct +-------+-------+ mixed	    |
+		    drv_quad			|		|	    |
+		        |		full_point	    full_point	    |
+		    full_point		full_line	    mix_line*	    |
+		    mix_line*		full_triangle	    mix_triangle*   |
+		    mix_triangle*	full_quad	    mix_quad*	    |
+		    mix_quad*		full_clippedPolygon mix_clippedPolygon
+			|		|	|		|
+			v		|	v		v
+		    DRV_POINT		|   DRV_POINT	    DRV_POINT
+		    DRV_LINE		|   DRV_LINE	    DRV_LINE
+		    DRV_TRIANGLE	|   DRV_TRIANGLE    DRV_TRIANGLE
+		    DRV_QUAD		|   DRV_QUAD	    DRV_QUAD
+		        |		+-------+		|
+			v			v		v
+			2			3		4

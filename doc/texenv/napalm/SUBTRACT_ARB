@@ -1,0 +1,48 @@
+    Arg0 - Arg1
+
+	 (   Arg0    +    -Arg1)   * 1 + 0
+	 [(1 - Arg0) +    -Arg1]   * 1 + 0
+    1 - {[   Arg0    + (1 - Arg1)] * 1 + 0}
+    1 - {[(1 - Arg0) + (1 - Arg1)] * 1 + 0}
+
+    invert = TEXENV_OPERAND_INVERTED(Arg1)
+    a_mode = TEXENV_SETUP_MODE(Arg0, invert)
+    b_mode = invert ? (1 - x) : (-x)
+    c_mode = 0
+    c_invt = 1
+    d_mode = 0
+    d_invt = 0
+
+A_OK, B_OK
+    (   Arg0    +    _Arg1)   * 1 + 0 = Arg0 - Arg1
+A_INVERT, B_OK
+    [(1_Arg0) +    _Arg1]   * 1 + 0 = 1_Arg0 - Arg1
+A_INVERT, B_INVERT
+    1 - {[   Arg0    + (1_Arg1)] * 1 + 0} = 1_Arg0 - 1_Arg1
+A_OK, B_INVERT
+    1 - {[(1_Arg0) + (1_Arg1)] * 1 + 0} =  Arg0 - 1_Arg1
+
+B_OK
+    invert = 0
+    a_mode = TEXENV_SETUP_MODE(Arg0, invert)
+    b_mode = -x
+    c_mode = 0
+    c_invt = 1
+    d_mode = 0
+    d_invt = 0
+A_INVERT, B_INVERT
+    invert = 0
+    a_mode = -x
+    b_mode = x
+    c_mode = 0
+    c_invt = 1
+    d_mode = 0
+    d_invt = 0
+A_OK, B_INVERT
+    invert = 0
+    a_mode = x - 0.5
+    b_mode = x - 0.5
+    c_mode = 0
+    c_invt = 1
+    d_mode = 0
+    d_invt = 0

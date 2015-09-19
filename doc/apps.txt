@@ -1,0 +1,53 @@
+ 1) I've Found Her: Danger and Opportunity Demo Version 1.0
+    - needs MAX_TEXTURE_SIZE >= 512 (preferably 1024)
+    - Aaaaaarrrgggh! Fatal exception in CWorld::mfShowOrtho!
+ 2) NeverWinter Nights Demo
+    - needs dxtn.dll?
+    - needs stencil?
+ 3) Call of Duty Burnville Demo
+    - needs MAX_TEXTURE_SIZE >= 512
+    - needs GL_ARB_texture_compression and GL_EXT_texture_compression_s3tc
+    - needs dxtn.dll
+ 4) BloodRayne Demo
+    - needs tweaked trigl.dll and heavy changes in wgl.c
+ 5) Unreal Tournament 2003 DEMO
+    - needs some TexCombine modes not available on Voodoo2
+ 6) Unreal Tournament 2004 DEMO
+    - needs some TexCombine modes not available on Voodoo2
+ 7) Vulpine GLmark v1.1p
+    - some lighting problems
+ 8) Doom3 1.0.1262
+    - some serious artifacts
+    - needs heavy changes in wgl.c
+ 9) SWKotor2
+    - needs dxtn.dll
+    - needs stencil?
+    - needs alpha?
+    - needs NV_register_combiner?
+10) Savage - The Battle for Newerth DEMO
+    - needs OpenGL 1.2
+11) Savage - The Battle for Newerth DEMO 2.0
+    - needs OpenGL 1.2
+12) Homeworld2 Demo Version 1.0
+    - needs OpenGL 1.2
+13) Hitman 2: Silent Assassin Demo
+14) Medal of Honor Allied Assault(tm) Demo Version 1.0
+15) Oni Demo 1.0
+16) Return to Castle Wolfenstein Single Player Demo
+17) Serious Sam: The First Encounter Demo Release 1.00
+18) Serious Sam: The Second Encounter DEMO Release 1.05
+19) Star Wars(r) Jedi Knight(r) II: Jedi Outcast(tm) Demo Version 1.0
+20) Star Wars(TM) Jedi Knight(TM): Jedi Academy(TM) Demo Version 1.0
+21) Warcraft III
+22) glQuake 1.30
+23) Quake II 3.20
+24) Quake III Arena Point Release 1.32
+25) UnrealTournament
+26) Wolfenstein: Enemy Territory 1.02 Update
+27) wTorcs 1.2.2
+28) FooBillard Version 3.0 Win32 Release 1
+29) GL-Excess v1.2v
+30) DroneZMark
+31) The OpenGL Geometry Benchmark
+32) Minidemo by Neoztar
+33) GLViewer

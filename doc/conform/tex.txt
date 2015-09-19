@@ -1,0 +1,6 @@
+GL_RGBA			-> RGBA			-> A, R, G, B
+GL_RGB			-> RGB			-> 1, R, G, B
+GL_INTENSITY		-> ALPHA		-> I, I, I, I
+GL_LUMINANCE_ALPHA	-> ALPHA_INTENSITY	-> A, L, L, L
+GL_LUMINANCE		-> INTENSITY		-> 1, L, L, L
+GL_ALPHA		-> ALPHA		-> A, A, A, A	(A, 0, 0, 0)

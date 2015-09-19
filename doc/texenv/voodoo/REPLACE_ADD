@@ -1,0 +1,38 @@
+REPLACE -> ADD
+
+ALPHA/ALPHA                     f                               A1 * A0
+ALPHA/LUMINANCE                 f + C0                          A1
+ALPHA/LUMINANCE_ALPHA           f + C0                          A1 * A0
+ALPHA/INTENSITY                 f + C0                          A1 + A0
+ALPHA/RGB                       f + C0                          A1
+ALPHA/RGBA                      f + C0                          A1 * A0
+LUMINANCE/ALPHA                 C1                              f * A0
+LUMINANCE/LUMINANCE             C1 + C0                         f
+LUMINANCE/LUMINANCE_ALPHA       C1 + C0                         f * A0
+LUMINANCE/INTENSITY             C1 + C0                         f + A0
+LUMINANCE/RGB                   C1 + C0                         f
+LUMINANCE/RGBA                  C1 + C0                         f * A0
+LUMINANCE_ALPHA/ALPHA           C1                              A1 * A0
+LUMINANCE_ALPHA/LUMINANCE       C1 + C0                         A1
+LUMINANCE_ALPHA/LUMINANCE_ALPHA C1 + C0                         A1 * A0
+LUMINANCE_ALPHA/INTENSITY       C1 + C0                         A1 + A0
+LUMINANCE_ALPHA/RGB             C1 + C0                         A1
+LUMINANCE_ALPHA/RGBA            C1 + C0                         A1 * A0
+INTENSITY/ALPHA                 C1                              A1 * A0
+INTENSITY/LUMINANCE             C1 + C0                         A1
+INTENSITY/LUMINANCE_ALPHA       C1 + C0                         A1 * A0
+INTENSITY/INTENSITY             C1 + C0                         A1 + A0
+INTENSITY/RGB                   C1 + C0                         A1
+INTENSITY/RGBA                  C1 + C0                         A1 * A0
+RGB/ALPHA                       C1                              f * A0
+RGB/LUMINANCE                   C1 + C0                         f
+RGB/LUMINANCE_ALPHA             C1 + C0                         f * A0
+RGB/INTENSITY                   C1 + C0                         f + A0
+RGB/RGB                         C1 + C0                         f
+RGB/RGBA                        C1 + C0                         f * A0
+RGBA/ALPHA                      C1                              A1 * A0
+RGBA/LUMINANCE                  C1 + C0                         A1
+RGBA/LUMINANCE_ALPHA            C1 + C0                         A1 * A0
+RGBA/INTENSITY                  C1 + C0                         A1 + A0
+RGBA/RGB                        C1 + C0                         A1
+RGBA/RGBA                       C1 + C0                         A1 * A0

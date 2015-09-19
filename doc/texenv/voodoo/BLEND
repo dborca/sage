@@ -1,0 +1,8 @@
+BLEND
+
+ALPHA                           f                               f * A0
+LUMINANCE                       f * (1 - C0) + Cc * C0          f
+LUMINANCE_ALPHA                 f * (1 - C0) + Cc * C0          f * A0
+INTENSITY                       f * (1 - C0) + Cc * C0          f * (1 - A0) + Ac * A0
+RGB                             f * (1 - C0) + Cc * C0          f
+RGBA                            f * (1 - C0) + Cc * C0          f * A0

@@ -1,0 +1,12 @@
+if (scale == 1) {
+    use normal combiners
+} else if (singletexturing) {
+    move scaling from TexCombine to ColorCombine
+} else if (GL_COMBINE requires Napalm texCombineInvert) {
+    fix SUBTRACT
+    fix ADD_SIGNED (w/o A_INVERT, B_INVERT)
+    fix INTERPOLATE (w/o A_OK, B_INVERT)
+
+    not fixed: ADD_SIGNED (A_INVERT, B_INVERT)
+    not fixed: INTERPOLATE (A_OK, B_INVERT)
+}

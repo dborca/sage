@@ -1,0 +1,8 @@
+1. unfilled clipped triangle is not ok (edgeflag?!?)
+2. glCullFace(GL_FRONT_AND_BACK) is not 100% correct
+3. secondarycolor:
+    fragment -> alphatest -> stenciltest -> depthtest -> blending
+    OpenGL:
+	primitive -> texturing -> colorsum -> fog -> fragments (blending)
+    SAGE:
+	primitive -> texturing -> fog -> fragments (blending) -> colorsum

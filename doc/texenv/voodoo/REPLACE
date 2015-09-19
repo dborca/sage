@@ -1,0 +1,8 @@
+REPLACE
+
+ALPHA                           f                               A0
+LUMINANCE                       C0                              f
+LUMINANCE_ALPHA                 C0                              A0
+INTENSITY                       C0                              A0
+RGB                             C0                              f
+RGBA                            C0                              A0
