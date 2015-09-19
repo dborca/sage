@@ -1416,8 +1416,7 @@ imm_ListBase (GLuint base)
 /******************************************************************************
  * XXX used for debug (remove)
  */
-
-
+#if 0
 #include <stdio.h>
 static void
 dlist_print (GLuint real_id)
@@ -1573,3 +1572,4 @@ dlist_print (GLuint real_id)
     }
     printf("DLIST END ---\n");
 }
+#endif
