@@ -9,9 +9,10 @@ all: lib/libGL.so.1.1
 CC = gcc
 CFLAGS = -Wall -W -pedantic
 CFLAGS += -O2
+# CFLAGS += -g
 # CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
-CFLAGS += -g -Wno-unused
+CFLAGS += -Wno-unused
 LD = $(CC)
 LDFLAGS =
 LDLIBS = -lm

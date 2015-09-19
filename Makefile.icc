@@ -9,9 +9,9 @@ all: lib/libGL.so.1.1
 CC = /opt/intel/cc/9.0/bin/icc
 CFLAGS = -Wall
 CFLAGS += -O2 -ip
+# CFLAGS += -g
 # CFLAGS += -rcd -xK -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
-# CFLAGS += -g
 LD = $(CC)
 LDFLAGS = -i-static
 LDLIBS = -lm
