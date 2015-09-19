@@ -2,9 +2,10 @@
 .SUFFIXES: .asm .o
 .INTERMEDIATE: x86/x86gen.exe
 
+LIBNAME = "SAGE 0.9"
 DRIVER ?= glide
 
-all: lib/libGL.a
+all: lib/libGL.a lib/gl.dxe
 
 CC = gcc
 CFLAGS = -Wall -W -pedantic
@@ -13,13 +14,14 @@ CFLAGS += -O2
 CFLAGS += -I. -Iinclude -Idrivers
 CFLAGS += -g -Wno-unused
 CFLAGS += -D__DOS__
-LD = gcc
+LD = $(CC)
 LDFLAGS =
 LDLIBS = -lm
 AS = nasm
 ASFLAGS = -O6 -fcoff -D__DJGPP__ -Ix86/ -Imain/ --prefix _
 AR = ar
 ARFLAGS = crus
+DXE3GEN = dxe3gen
 
 # MSS begin
 ifeq ($(MSS),1)
@@ -101,6 +103,9 @@ OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 
 lib/libGL.a: $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
+
+lib/gl.dxe: $(OBJECTS)
+	$(DXE3GEN) -o $@ -Y lib/libigl.a -D $(LIBNAME) -E _sage_ -E _gl -X _gl_ -P glide3x.dxe -U $^
 
 $(X86_SOURCES:.asm=.o): x86/x86.inc
 
