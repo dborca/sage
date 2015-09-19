@@ -32,7 +32,7 @@ drivers/$(DRIVER)/x86/drv.inc: drivers/$(DRIVER)/x86/drvgen.exe
 	$< -o $@
 
 drivers/$(DRIVER)/x86/drvgen.exe: drivers/$(DRIVER)/x86/drvgen.c glinternal.h main/context.h drivers/$(DRIVER)/drv.h
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+	$(HOST_CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
 
 clean::
 	-$(RM) drivers/$(DRIVER)/x86/k3d_emit.o

@@ -7,6 +7,7 @@ DRIVER ?= glide
 all: lib/libGL.so.1.1
 
 CC = gcc
+HOST_CC = gcc
 CFLAGS = -Wall -W -pedantic
 CFLAGS += -O2
 # CFLAGS += -g
@@ -108,7 +109,7 @@ x86/x86.inc: x86/x86gen.exe
 	$< -o $@
 
 x86/x86gen.exe: x86/x86gen.c glinternal.h main/context.h main/matrix.h tnl/tnl.h x86/cpu.h
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+	$(HOST_CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
 
 clean::
 	-$(RM) $(OBJECTS)
