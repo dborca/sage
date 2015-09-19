@@ -23,6 +23,10 @@ ASFLAGS = -O6 -fcoff -D__DJGPP__ -Ix86/ -Imain/ --prefix _
 AR = ar
 ARFLAGS = crus
 DXE3GEN = dxe3gen
+DXE3FLAGS = -E _sage_ -E _gl -X _gl_
+ifeq ($(DRIVER),glide)
+DXE3FLAGS+= -P glide3x.dxe
+endif
 
 # MSS begin
 ifeq ($(MSS),1)
@@ -106,7 +110,7 @@ lib/libGL.a: $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
 lib/gl.dxe: $(OBJECTS)
-	$(DXE3GEN) -o $@ -Y lib/libigl.a -D $(LIBNAME) -E _sage_ -E _gl -X _gl_ -P glide3x.dxe -U $^
+	$(DXE3GEN) -o $@ -Y lib/libigl.a -D $(LIBNAME) $(DXE3FLAGS) -U $^
 
 $(X86_SOURCES:.asm=.o): x86/x86.inc
 
