@@ -15,7 +15,7 @@ CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
 CFLAGS += -Wno-unused
 LD = $(CC)
-LDFLAGS =
+LDFLAGS = -Wl,--enable-auto-image-base -Wl,--no-undefined
 LDLIBS = -lm
 AS = nasm
 ASFLAGS = -O6 -fwin32 -D__WIN32__ -Ix86/ -Imain/ --prefix _
@@ -105,12 +105,9 @@ OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 .rc.res:
 	$(RC) -o $@ $(RCFLAGS) $<
 
-lib/opengl32.dll: $(OBJECTS) drivers/$(DRIVER)/opengl.res
-	$(LD) -o $@ -shared $(LDFLAGS) $^ $(LDLIBS) -Wl,-k
-#	$(LD) -o $@ -shared $(LDFLAGS) $^ $(LDLIBS)
-
-lib/libopengl32.a:
-	$(DLLTOOL) --dllname opengl32.dll --def drivers/opengl32.def --output-lib $@ -k
+lib/libopengl32.a: lib/opengl32.dll
+lib/opengl32.dll: $(OBJECTS) drivers/$(DRIVER)/opengl.res drivers/opengl32.def
+	$(LD) -shared -o $@ $^ $(LDFLAGS) $(LDLIBS) -Xlinker --out-implib -Xlinker lib/libopengl32.a
 
 $(X86_SOURCES:.asm=.o): x86/x86.inc
 
