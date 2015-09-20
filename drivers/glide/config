@@ -1,4 +1,4 @@
-.INTERMEDIATE: drivers/$(DRIVER)/x86/drvgen.exe
+.INTERMEDIATE: drivers/$(DRIVER)/x86/drvgen.exe glide3x.dxe
 
 GLIDESDK ?= .
 
@@ -34,9 +34,19 @@ drivers/$(DRIVER)/x86/drv.inc: drivers/$(DRIVER)/x86/drvgen.exe
 drivers/$(DRIVER)/x86/drvgen.exe: drivers/$(DRIVER)/x86/drvgen.c glinternal.h main/context.h drivers/$(DRIVER)/drv.h
 	$(HOST_CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
 
+# dxe3gen needs glide3x.dxe when generating the import lib libigl.a.
+# so we generate a dummy glide3x.dxe to cover common glide3x exports
+# and all possible libc dependencies:
+lib/gl.dxe: glide3x.dxe
+drivers/$(DRIVER)/glide3x_dxe.o: drivers/$(DRIVER)/glide3x_dxe.c
+	$(CC) -O0 -Wall -o $@ -c $<
+glide3x.dxe: drivers/$(DRIVER)/glide3x_dxe.o
+	-$(DXE3GEN) -o glide3x.dxe -E _gr -E _gu -U $<
+
 clean::
 	-$(RM) drivers/$(DRIVER)/x86/k3d_emit.o
 	-$(RM) drivers/$(DRIVER)/x86/sse_emit.o
+	-$(RM) drivers/$(DRIVER)/glide3x_dxe.o
 
 realclean::
 	-$(RM) drivers/$(DRIVER)/x86/drv.inc

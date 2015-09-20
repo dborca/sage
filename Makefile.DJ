@@ -111,7 +111,7 @@ lib/libGL.a: $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
 lib/gl.dxe: $(OBJECTS)
-	$(DXE3GEN) -o $@ -Y lib/libigl.a -D $(LIBNAME) $(DXE3FLAGS) -U $^
+	-$(DXE3GEN) -o $@ -Y lib/libigl.a -D $(LIBNAME) $(DXE3FLAGS) -U $(OBJECTS)
 
 $(X86_SOURCES:.asm=.o): x86/x86.inc
 
