@@ -1,6 +1,6 @@
 .INTERMEDIATE: drivers/$(DRIVER)/x86/drvgen.exe glide3x.dxe
 
-GLIDESDK ?= .
+GLIDESDK ?= g3sdk
 
 CFLAGS += -I$(GLIDESDK)/include
 LDFLAGS += -L$(GLIDESDK)/lib
