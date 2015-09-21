@@ -63,46 +63,30 @@ void (*drv_copypv) (int vdst, int vsrc);
 void (*drv_interp) (float t, int vdst, int vout, int vin);
 
 
-/*
-char * (FX_CALL *gfGetRegistryOrEnvironmentStringExt) (char *theEntry);
-GrContext_t (FX_CALL *gfSstWinOpenExt) (FxU32 hWnd, GrScreenResolution_t resolution, GrScreenRefresh_t refresh, GrColorFormat_t format, GrOriginLocation_t origin, GrPixelFormat_t pixelformat, int nColBuffers, int nAuxBuffers);
-void (FX_CALL *gfBufferClearExt) (GrColor_t color, GrAlpha_t alpha, FxU32 depth, GrStencil_t stencil);
-void (FX_CALL *gfColorMaskExt) (FxBool r, FxBool g, FxBool b, FxBool a);
-void (FX_CALL *gfStencilFuncExt) (GrCmpFnc_t fnc, GrStencil_t ref, GrStencil_t mask);
-void (FX_CALL *gfStencilMaskExt) (GrStencil_t value);
-void (FX_CALL *gfStencilOpExt) (GrStencilOp_t stencil_fail, GrStencilOp_t depth_fail, GrStencilOp_t depth_pass);
-void (FX_CALL *gfColorCombineExt) (GrCCUColor_t a, GrCombineMode_t a_mode, GrCCUColor_t b, GrCombineMode_t b_mode, GrCCUColor_t c, FxBool c_invert, GrCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfAlphaCombineExt) (GrACUColor_t a, GrCombineMode_t a_mode, GrACUColor_t b, GrCombineMode_t b_mode, GrACUColor_t c, FxBool c_invert, GrACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfTexColorCombineExt) (GrChipID_t tmu, GrTCCUColor_t a, GrCombineMode_t a_mode, GrTCCUColor_t b, GrCombineMode_t b_mode, GrTCCUColor_t c, FxBool c_invert, GrTCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfTexAlphaCombineExt) (GrChipID_t tmu, GrTACUColor_t a, GrCombineMode_t a_mode, GrTACUColor_t b, GrCombineMode_t b_mode, GrTACUColor_t c, FxBool c_invert, GrTACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfConstantColorValueExt) (GrChipID_t tmu, GrColor_t value);
-*/
-
-
 /** Get registry or environment string. */
-char * FX_CALL (*gfGetRegistryOrEnvironmentStringExt) (char *theEntry);
+gfGetRegistryOrEnvironmentStringExt_f gfGetRegistryOrEnvironmentStringExt;
 /** Open hardware context. */
-GrContext_t FX_CALL (*gfSstWinOpenExt) (FxU32 hWnd, GrScreenResolution_t resolution, GrScreenRefresh_t refresh, GrColorFormat_t format, GrOriginLocation_t origin, GrPixelFormat_t pixelformat, int nColBuffers, int nAuxBuffers);
+gfSstWinOpenExt_f gfSstWinOpenExt;
 /** Clear buffer. */
-void FX_CALL (*gfBufferClearExt) (GrColor_t color, GrAlpha_t alpha, FxU32 depth, GrStencil_t stencil);
+gfBufferClearExt_f gfBufferClearExt;
 /** Color mask. */
-void FX_CALL (*gfColorMaskExt) (FxBool r, FxBool g, FxBool b, FxBool a);
+gfColorMaskExt_f gfColorMaskExt;
 /** Stencil function. */
-void FX_CALL (*gfStencilFuncExt) (GrCmpFnc_t fnc, GrStencil_t ref, GrStencil_t mask);
+gfStencilFuncExt_f gfStencilFuncExt;
 /** Stencil mask. */
-void FX_CALL (*gfStencilMaskExt) (GrStencil_t value);
+gfStencilMaskExt_f gfStencilMaskExt;
 /** Stencil op. */
-void FX_CALL (*gfStencilOpExt) (GrStencilOp_t stencil_fail, GrStencilOp_t depth_fail, GrStencilOp_t depth_pass);
+gfStencilOpExt_f gfStencilOpExt;
 /** Color combiner. */
-void FX_CALL (*gfColorCombineExt) (GrCCUColor_t a, GrCombineMode_t a_mode, GrCCUColor_t b, GrCombineMode_t b_mode, GrCCUColor_t c, FxBool c_invert, GrCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfColorCombineExt_f gfColorCombineExt;
 /** Alpha combiner. */
-void FX_CALL (*gfAlphaCombineExt) (GrACUColor_t a, GrCombineMode_t a_mode, GrACUColor_t b, GrCombineMode_t b_mode, GrACUColor_t c, FxBool c_invert, GrACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfAlphaCombineExt_f gfAlphaCombineExt;
 /** Texture color combiner. */
-void FX_CALL (*gfTexColorCombineExt) (GrChipID_t tmu, GrTCCUColor_t a, GrCombineMode_t a_mode, GrTCCUColor_t b, GrCombineMode_t b_mode, GrTCCUColor_t c, FxBool c_invert, GrTCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfTexColorCombineExt_f gfTexColorCombineExt;
 /** Texture alpha combiner. */
-void FX_CALL (*gfTexAlphaCombineExt) (GrChipID_t tmu, GrTACUColor_t a, GrCombineMode_t a_mode, GrTACUColor_t b, GrCombineMode_t b_mode, GrTACUColor_t c, FxBool c_invert, GrTACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfTexAlphaCombineExt_f gfTexAlphaCombineExt;
 /** Constant color. */
-void FX_CALL (*gfConstantColorValueExt) (GrChipID_t tmu, GrColor_t value);
+gfConstantColorValueExt_f gfConstantColorValueExt;
 
 
 /**
@@ -459,18 +443,18 @@ sage_init (void)
     hwext_pixext = (strstr(str, "PIXEXT") != NULL);
     hwext_combine = (strstr(str, "COMBINE") != NULL);
 
-    *(GrProc *)&gfGetRegistryOrEnvironmentStringExt = grGetProcAddress("grGetRegistryOrEnvironmentStringExt");
-    *(GrProc *)&gfSstWinOpenExt = grGetProcAddress("grSstWinOpenExt");
-    *(GrProc *)&gfBufferClearExt = grGetProcAddress("grBufferClearExt");
-    *(GrProc *)&gfColorMaskExt = grGetProcAddress("grColorMaskExt");
-    *(GrProc *)&gfStencilFuncExt = grGetProcAddress("grStencilFuncExt");
-    *(GrProc *)&gfStencilMaskExt = grGetProcAddress("grStencilMaskExt");
-    *(GrProc *)&gfStencilOpExt = grGetProcAddress("grStencilOpExt");
-    *(GrProc *)&gfColorCombineExt = grGetProcAddress("grColorCombineExt");
-    *(GrProc *)&gfAlphaCombineExt = grGetProcAddress("grAlphaCombineExt");
-    *(GrProc *)&gfTexColorCombineExt = grGetProcAddress("grTexColorCombineExt");
-    *(GrProc *)&gfTexAlphaCombineExt = grGetProcAddress("grTexAlphaCombineExt");
-    *(GrProc *)&gfConstantColorValueExt = grGetProcAddress("grConstantColorValueExt");
+    gfGetRegistryOrEnvironmentStringExt = (gfGetRegistryOrEnvironmentStringExt_f) grGetProcAddress("grGetRegistryOrEnvironmentStringExt");
+    gfSstWinOpenExt = (gfSstWinOpenExt_f) grGetProcAddress("grSstWinOpenExt");
+    gfBufferClearExt = (gfBufferClearExt_f) grGetProcAddress("grBufferClearExt");
+    gfColorMaskExt = (gfColorMaskExt_f) grGetProcAddress("grColorMaskExt");
+    gfStencilFuncExt = (gfStencilFuncExt_f) grGetProcAddress("grStencilFuncExt");
+    gfStencilMaskExt = (gfStencilMaskExt_f) grGetProcAddress("grStencilMaskExt");
+    gfStencilOpExt = (gfStencilOpExt_f) grGetProcAddress("grStencilOpExt");
+    gfColorCombineExt = (gfColorCombineExt_f) grGetProcAddress("grColorCombineExt");
+    gfAlphaCombineExt = (gfAlphaCombineExt_f) grGetProcAddress("grAlphaCombineExt");
+    gfTexColorCombineExt = (gfTexColorCombineExt_f) grGetProcAddress("grTexColorCombineExt");
+    gfTexAlphaCombineExt = (gfTexAlphaCombineExt_f) grGetProcAddress("grTexAlphaCombineExt");
+    gfConstantColorValueExt = (gfConstantColorValueExt_f) grGetProcAddress("grConstantColorValueExt");
 
     current = NULL;
 
