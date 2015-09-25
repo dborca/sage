@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "GL/gl.h"
 
 #include "glinternal.h"
@@ -5,6 +7,7 @@
 #include "main/context.h"
 #include "main/matrix.h"
 #include "tnl/tnl.h"
+#include "util/cfg.h"
 #include "cpu.h"
 #include "x86.h"
 
@@ -44,6 +47,9 @@ void GLAPIENTRY sse_MultiTexCoord2fv (GLenum texture, const GLfloat *v);
 
 int x86_cpu_bits;
 char x86_cpu_name[13];
+
+int x86_enable_sse;
+int x86_enable_3dnow;
 
 
 static int
@@ -85,20 +91,25 @@ k3d_init (void)
 }
 
 
+#define YES(v) !strcmp(cfg_get(v, "n"), "y")
+
 int
 x86_init (void)
 {
     x86_cpu_bits = cpusoft(x86_cpu_name);
+
+    x86_enable_3dnow = YES("x86.enable.3dnow");
+    x86_enable_sse   = YES("x86.enable.sse");
 
     tnl_clipmask_tab[0] = x86_clipmask;
     /*ctx_imm_table.Vertex3fv = x86_Vertex3fv;*/
     ctx_imm_table.TexCoord2fv = x86_TexCoord2fv;
     ctx_imm_table.MultiTexCoord2fv = x86_MultiTexCoord2fv;
 
-    if (x86_cpu_bits & _CPU_FEATURE_SSE) {
+    if ((x86_cpu_bits & _CPU_FEATURE_SSE) && x86_enable_sse) {
 	sse_init();
     }
-    if (x86_cpu_bits & _CPU_FEATURE_3DNOW) {
+    else if ((x86_cpu_bits & _CPU_FEATURE_3DNOW) && x86_enable_3dnow) {
 	k3d_init();
     }
     return 0;

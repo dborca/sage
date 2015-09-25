@@ -29,6 +29,9 @@
 extern int x86_cpu_bits;
 extern char x86_cpu_name[];
 
+extern int x86_enable_sse;
+extern int x86_enable_3dnow;
+
 int x86_init (void);
 
 #endif
