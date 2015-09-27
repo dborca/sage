@@ -7,7 +7,6 @@
  */
 
 
-#include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,6 +28,13 @@ typedef struct ENTRY {
 
 /** configuration setting list */
 static ENTRY cfg_list = { &cfg_list, &cfg_list, NULL, {0} };
+
+
+static int
+cfg_isspace (int c)
+{
+    return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+}
 
 
 /**
@@ -55,7 +61,7 @@ cfg_load (const char *filename)
 	ENTRY *e;
 
 	beg = line;
-	while (isspace(*beg)) {
+	while (cfg_isspace(*beg)) {
 	    beg++;
 	}
 
@@ -63,7 +69,7 @@ cfg_load (const char *filename)
 	if (end == beg) {
 	    continue;
 	}
-	while (isspace(*(end - 1))) {
+	while (cfg_isspace(*(end - 1))) {
 	    end--;
 	}
 	*end = '\0';
@@ -82,11 +88,11 @@ cfg_load (const char *filename)
 	if (*mid == '\0') {
 	    continue;		/* `abc=' */
 	}
-	while (isspace(*mid)) {
+	while (cfg_isspace(*mid)) {
 	    mid++;
 	}
 
-	while (isspace(*(end - 1))) {
+	while (cfg_isspace(*(end - 1))) {
 	    end--;
 	}
 	*end = '\0';
