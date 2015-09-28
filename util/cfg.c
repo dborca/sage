@@ -120,7 +120,10 @@ cfg_load (const char *filename)
     }
 
     fclose(f);
+#ifndef __MSDOS__
     atexit(cfg_kill);
+#endif
+
     return 0;
 }
 
