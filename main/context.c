@@ -29,7 +29,7 @@ GLuint ctx_depthbits;
 GLuint ctx_depthmaxi;
 GLfloat ctx_depthmaxf;
 GLuint ctx_stencilmaxi;
-GLuint ctx_redbits, ctx_greenbits, ctx_bluebits, ctx_alphabits;
+GLuint ctx_redbits, ctx_greenbits, ctx_bluebits, ctx_alphabits, ctx_stencilbits;
 
 GLboolean ctx_texcodec;
 
@@ -147,6 +147,7 @@ ctx_init (int db_flag,
     ctx_depthbits = depth_size;
     ctx_depthmaxi = (1 << depth_size) - 1;
     ctx_depthmaxf = (GLfloat)ctx_depthmaxi;
+    ctx_stencilbits = stencil_size;
     ctx_stencilmaxi = (1 << stencil_size) - 1;
     ctx_redbits = red_size;
     ctx_greenbits = green_size;

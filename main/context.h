@@ -185,7 +185,7 @@ extern GLuint ctx_depthbits;
 extern GLuint ctx_depthmaxi;
 extern GLfloat ctx_depthmaxf;
 extern GLuint ctx_stencilmaxi;
-extern GLuint ctx_redbits, ctx_greenbits, ctx_bluebits, ctx_alphabits;
+extern GLuint ctx_redbits, ctx_greenbits, ctx_bluebits, ctx_alphabits, ctx_stencilbits;
 
 extern GLboolean ctx_texcodec;
 

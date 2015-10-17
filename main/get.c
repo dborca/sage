@@ -113,7 +113,7 @@ imm_GetIntegerv (GLenum pname, GLint *params)
 	    params[0] = ctx_pack.swap_bytes;
 	    break;
 	case GL_STENCIL_BITS:
-	    params[0] = 0;
+	    params[0] = ctx_stencilbits;
 	    break;
 	case GL_DEPTH_BITS:
 	    params[0] = ctx_depthbits;
