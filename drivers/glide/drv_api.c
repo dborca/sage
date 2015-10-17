@@ -517,7 +517,10 @@ sage_open (int db_flag,
     allow_texuma      = hwext_texuma && !YES("3dfx.disable.texuma");
     allow_texmirror   = hwext_texmirror && !YES("3dfx.disable.texmirror");
     allow_fogcoord    = hwext_fogcoord && !YES("3dfx.disable.fogcoord");
-    allow_32bpt       = (fb_color == 24 && hwext_texfmt) && !YES("3dfx.disable.32bpt");
+    allow_32bpt       = hwext_texfmt && !YES("3dfx.disable.32bpt");
+#if 0 /* FS: only check if we have the ARGB_8888 & co, like Mesa. */
+    if (fb_color != 24) allow_32bpt = 0;
+#endif
     allow_blendsquare = (hardware >= GR_SSTTYPE_Voodoo4) && !YES("3dfx.disable.blendsquare");
     allow_combine     = GL_TRUE && !YES("3dfx.disable.combine");
     allow_multitex    = (getInteger(GR_NUM_TMU) > 1) && !YES("3dfx.disable.multitex");

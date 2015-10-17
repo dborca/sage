@@ -2,7 +2,7 @@
 .SUFFIXES: .asm .o
 .INTERMEDIATE: x86/x86gen.exe
 
-LIBNAME = "SAGE 0.9"
+LIBNAME = "SAGE_GL 0.9.x"
 DRIVER ?= glide
 
 all: lib/libGL.a lib/gl.dxe
