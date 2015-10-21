@@ -99,6 +99,9 @@ sage_bind (sageContext *ctx, void *win, int width, int height)
 	}
 	return 0;
     }
+#ifdef __MSDOS__
+    win = NULL; /* DOS: no window handle. */
+#endif
     if (ctx == current) {
 	if (win == current->drawable) {
 	    /* nop */
