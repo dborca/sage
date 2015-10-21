@@ -160,3 +160,28 @@ sage_swap (int interval)
     (void)interval;
     GLCALL(Flush)();
 }
+
+
+#ifdef __MSDOS__
+static struct {
+    const char *name;
+    SageProc proc;
+} functab[] = {
+#define ALIAS(x, y) \
+    { "gl" #x #y, (SageProc)gl##x },
+#include "../../main/alias.h"
+};
+
+SageProc
+sage_GetProcAddress (const char *procname)
+{
+    const int n = sizeof(functab) / sizeof(functab[0]);
+    int i;
+    for (i = 0; i < n; i++) {
+	if (!strcmp(procname, functab[i].name)) {
+	    return functab[i].proc;
+	}
+    }
+    return NULL;
+}
+#endif
