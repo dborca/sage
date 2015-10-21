@@ -30,9 +30,13 @@ sage_init (void)
 	return 32;
     }
 
+#if defined(__MSDOS__)||defined(_WIN32)
+    cfg_load("sage.ini");
+#else
     if (cfg_load("sage.ini") != 0) {
 	cfg_load("/etc/sage.ini");
     }
+#endif
 
     hardware = 0;
 

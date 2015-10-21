@@ -437,9 +437,13 @@ sage_init (void)
 	return 0;
     }
 
+#if defined(__MSDOS__)||defined(_WIN32)
+    cfg_load("sage.ini");
+#else
     if (cfg_load("sage.ini") != 0) {
 	cfg_load("/etc/sage.ini");
     }
+#endif
 
     grSstSelect(0);
 
