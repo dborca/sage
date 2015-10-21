@@ -33,7 +33,12 @@ static ENTRY cfg_list = { &cfg_list, &cfg_list, NULL, {0} };
 static int
 cfg_isspace (int c)
 {
-    return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+    switch(c) {
+    case ' ':  case '\t':
+    case '\n': case '\r':
+    case '\f': case '\v': return 1;
+    }
+    return 0;
 }
 
 
