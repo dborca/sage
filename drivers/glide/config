@@ -32,7 +32,7 @@ drivers/$(DRIVER)/x86/drv.inc: drivers/$(DRIVER)/x86/drvgen.exe
 	$< -o $@
 
 drivers/$(DRIVER)/x86/drvgen.exe: drivers/$(DRIVER)/x86/drvgen.c glinternal.h main/context.h drivers/$(DRIVER)/drv.h
-	$(HOST_CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+	$(HOST_CC) -o $@ $(CFLAGS) $<
 
 # dxe3gen needs glide3x.dxe when generating the import lib libigl.a.
 # so we generate a dummy glide3x.dxe to cover common glide3x exports

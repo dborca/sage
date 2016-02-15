@@ -10,8 +10,8 @@ CC = gcc
 HOST_CC = gcc
 CFLAGS = -Wall -W -pedantic
 CFLAGS += -O2
-# CFLAGS += -g
-# CFLAGS += -ffast-math -DFAST_MATH
+#CFLAGS += -g
+#CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
 CFLAGS += -Wno-unused
 LD = $(CC)
@@ -19,14 +19,6 @@ LDFLAGS =
 LDLIBS = -lm
 AS = nasm
 ASFLAGS = -O6 -felf -D__linux__ -Ix86/ -Imain/
-
-# MSS begin
-ifeq ($(MSS),1)
-CFLAGS += -DMSS=1 -include mss.h
-LDFLAGS += -Llib
-LDLIBS += -lmss
-endif
-# MSS end
 
 CORE_SOURCES = \
 	util/cfg.c \
@@ -109,7 +101,7 @@ x86/x86.inc: x86/x86gen.exe
 	$< -o $@
 
 x86/x86gen.exe: x86/x86gen.c glinternal.h main/context.h main/matrix.h tnl/tnl.h x86/cpu.h
-	$(HOST_CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+	$(HOST_CC) -o $@ $(CFLAGS) $<
 
 clean::
 	-$(RM) $(OBJECTS)
