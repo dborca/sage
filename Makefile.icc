@@ -76,6 +76,8 @@ X86_SOURCES = \
 	x86/sse_mat.asm \
 	x86/sse_clip.asm \
 	x86/sse_misc.asm
+
+x86/x86.o: x86/x86chk.h
 endif
 
 include drivers/$(DRIVER)/config
@@ -99,13 +101,17 @@ $(X86_SOURCES:.asm=.o): x86/x86.inc
 x86/x86.inc: x86/x86gen.exe
 	$< -o $@
 
+x86/x86chk.h: x86/x86gen.exe
+	$< -c -o $@
+
 x86/x86gen.exe: x86/x86gen.c glinternal.h main/context.h main/matrix.h tnl/tnl.h x86/cpu.h
 	$(HOST_CC) -o $@ $(CFLAGS) $<
 
 clean::
 	-$(RM) $(OBJECTS)
 	-$(RM) x86/*.o
+	-$(RM) x86/x86chk.h
+	-$(RM) x86/x86.inc
 
 realclean:: clean
-	-$(RM) x86/x86.inc
 	-$(RM) lib/libGL.so.1.1

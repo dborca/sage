@@ -4,6 +4,7 @@
  */
 
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -761,4 +762,9 @@ sage_GetProcAddress (const char *procname)
     }
     return NULL;
 }
+#endif
+
+#ifdef X86
+/* validate structure sizes and member offsets in x86/drv.inc: */
+#include "drvchk.h"
 #endif

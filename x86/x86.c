@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <string.h>
 
 #include "GL/gl.h"
@@ -114,3 +115,6 @@ x86_init (void)
     }
     return 0;
 }
+
+/* validate structure sizes and member offsets in x86.inc: */
+#include "x86chk.h"

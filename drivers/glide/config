@@ -20,6 +20,8 @@ ifeq ($(X86),1)
 DRIVER_SOURCES += \
 	drivers/$(DRIVER)/x86/k3d_emit.asm \
 	drivers/$(DRIVER)/x86/sse_emit.asm
+
+drivers/$(DRIVER)/drv_api.o: drivers/$(DRIVER)/drvchk.h
 endif
 
 drivers/$(DRIVER)/x86/k3d_emit.o: drivers/$(DRIVER)/x86/k3d_emit.asm drivers/$(DRIVER)/x86/k3d_vbtmp.asm drivers/$(DRIVER)/x86/drv.inc
@@ -30,6 +32,8 @@ drivers/$(DRIVER)/x86/sse_emit.o: drivers/$(DRIVER)/x86/sse_emit.asm drivers/$(D
 
 drivers/$(DRIVER)/x86/drv.inc: drivers/$(DRIVER)/x86/drvgen.exe
 	$< -o $@
+drivers/$(DRIVER)/drvchk.h: drivers/$(DRIVER)/x86/drvgen.exe
+	$< -c -o $@
 
 drivers/$(DRIVER)/x86/drvgen.exe: drivers/$(DRIVER)/x86/drvgen.c glinternal.h main/context.h drivers/$(DRIVER)/drv.h
 	$(HOST_CC) -o $@ $(CFLAGS) $<
@@ -47,6 +51,6 @@ clean::
 	-$(RM) drivers/$(DRIVER)/x86/k3d_emit.o
 	-$(RM) drivers/$(DRIVER)/x86/sse_emit.o
 	-$(RM) drivers/$(DRIVER)/glide3x_dxe.o
-
-realclean::
+	-$(RM) drivers/$(DRIVER)/drvchk.h
 	-$(RM) drivers/$(DRIVER)/x86/drv.inc
+
