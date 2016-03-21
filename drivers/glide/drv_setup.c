@@ -1420,6 +1420,7 @@ convertStencilOp (GLenum op)
 	    return GR_STENCILOP_DECR_WRAP;
 	default:
 	    gl_assert(0);
+	    return GR_STENCILOP_KEEP;
    }
 }
 
