@@ -1453,6 +1453,7 @@ drv_setupStencil (void)
 }
 
 
+#if FX_RESCALEHACK
 static void
 scale_down (const TEX_IMG *srcTexImg, TEX_IMG *dstTexImg, const TEXDEF *texDef)
 {
@@ -1492,3 +1493,4 @@ scale_down (const TEX_IMG *srcTexImg, TEX_IMG *dstTexImg, const TEXDEF *texDef)
     dstFxImg->width = realDstWidth;
     dstFxImg->height = realDstHeight;
 }
+#endif
