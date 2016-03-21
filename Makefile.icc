@@ -17,7 +17,7 @@ LD = $(CC)
 LDFLAGS = -i-static
 LDLIBS = -lm
 AS = nasm
-ASFLAGS = -O6 -felf -D__linux__ -Ix86/ -Imain/
+ASFLAGS = -O2 -felf -D__linux__ -Ix86/ -Imain/
 
 CORE_SOURCES = \
 	util/cfg.c \
