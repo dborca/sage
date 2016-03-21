@@ -11,6 +11,7 @@ CC = gcc
 HOST_CC = gcc
 CFLAGS = -Wall -W -pedantic
 CFLAGS += -O2
+#CFLAGS += -DNDEBUG
 #CFLAGS += -g
 #CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers

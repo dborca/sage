@@ -10,6 +10,7 @@ CC = /opt/intel/cc/9.0/bin/icc
 HOST_CC = /opt/intel/cc/9.0/bin/icc
 CFLAGS = -Wall
 CFLAGS += -O2 -ip
+#CFLAGS += -DNDEBUG
 #CFLAGS += -g
 #CFLAGS += -rcd -xK -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
