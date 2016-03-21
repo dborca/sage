@@ -13,6 +13,8 @@ CFLAGS += -O2 -ip
 #CFLAGS += -g
 #CFLAGS += -rcd -xK -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
+# disable software scaledown of hardware-unsupported large textures
+#CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)
 LDFLAGS = -i-static
 LDLIBS = -lm

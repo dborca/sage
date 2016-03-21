@@ -16,6 +16,8 @@ CFLAGS += -O2
 CFLAGS += -I. -Iinclude -Idrivers
 CFLAGS += -Wno-unused
 CFLAGS += -D__DOS__
+# disable software scaledown of hardware-unsupported large textures
+CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)
 LDFLAGS =
 LDLIBS = -lm
