@@ -409,11 +409,7 @@ is_pow2 (int n)
 	return 0;
     }
 
-    while ((n & 1) == 0) {
-	n >>= 1;
-    }
-
-    return !(n & ~1);
+    return !(n & (n - 1));
 }
 
 
