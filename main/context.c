@@ -493,6 +493,8 @@ gl_enum (GLenum e)
 	    return "GL_STACK_OVERFLOW";
 	case GL_STACK_UNDERFLOW:
 	    return "GL_STACK_UNDERFLOW";
+	case GL_INVALID_ENUM:
+	    return "GL_INVALID_ENUM";
 	case GL_INVALID_VALUE:
 	default:
 	    return "GL_INVALID_VALUE";
