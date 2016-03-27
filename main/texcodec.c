@@ -1,25 +1,50 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __linux__
+/* this requires dxtn library of Daniel Borca, i.e. tc-1.1.tar.gz
+ * from http://www.geocities.ws/dborca/opengl/tc.html
+ *
+ * and NOT libtxc_dxtn from freedesktop.org, which is different:
+ * http://people.freedesktop.org/~cbrill/libtxc_dxtn/
+ * http://cgit.freedesktop.org/~mareko/libtxc_dxtn/
+ * (also see https://github.com/divVerent/s2tc for an alternative)
+ *
+ * (Mesa6.4 does use libtxc_dxtn, maybe the code can be updated)
+ */
+
+#ifndef USE_EXTERNAL_DXTN_LIB
+#define USE_EXTERNAL_DXTN_LIB 0
+#endif
+
+#if !USE_EXTERNAL_DXTN_LIB
+
+#define _sage_dlopen(name, mode) NULL
+#define _sage_dlsym(hndl, proc)  NULL
+#define _sage_dlclose(hndl)
+
+#elif defined(__linux__)
 
 #include <dlfcn.h>
+#define _sage_dlopen             dlopen
+#define _sage_dlsym              dlsym
+#define _sage_dlclose            dlclose
 #define DXTN_LIB           "libdxtn.so"
 
 #elif defined(__DJGPP__)
 
-#define dlopen(name, mode) NULL
-#define dlsym(hndl, proc)  NULL
-#define dlclose(hndl)
+#include <dlfcn.h>
+#define _sage_dlopen             dlopen
+#define _sage_dlsym(hndl, proc)  dlsym(hndl,"_" proc)
+#define _sage_dlclose            dlclose
 #define DXTN_LIB           "dxtn.dxe"
 
 #elif defined(__WIN32__)
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#define dlopen(name, mode) LoadLibrary(name)
-#define dlsym(hndl, proc)  GetProcAddress(hndl, proc)
-#define dlclose(hndl)      FreeLibrary(hndl)
+#define _sage_dlopen(name, mode) LoadLibrary(name)
+#define _sage_dlsym(hndl, proc)  GetProcAddress(hndl, proc)
+#define _sage_dlclose(hndl)      FreeLibrary(hndl)
 #define DXTN_LIB           "dxtn.dll"
 
 #endif
@@ -32,7 +57,7 @@
 #include "texcodec.h"
 
 
-#define GET_PTR(type, name) name = (type)dlsym(h, #name)
+#define GET_PTR(type,name) if(!(name=(type)_sage_dlsym(h,#name))){tc_fini();return -1;}
 
 
 typedef void (*TC_FETCHER) (const void *texture, int stride_in_pixels, int i, int j, unsigned char *rgba);
@@ -41,27 +66,30 @@ typedef void (*TC_ENCODER) (int width, int height, int comps, const void *source
 
 static void *h = NULL;
 
-static TC_FETCHER fxt1_decode_1;
-static TC_FETCHER dxt1_rgb_decode_1;
-static TC_FETCHER dxt1_rgba_decode_1;
-static TC_FETCHER dxt3_rgba_decode_1;
-static TC_FETCHER dxt5_rgba_decode_1;
+static TC_FETCHER fxt1_decode_1 = NULL;
+static TC_FETCHER dxt1_rgb_decode_1 = NULL;
+static TC_FETCHER dxt1_rgba_decode_1 = NULL;
+static TC_FETCHER dxt3_rgba_decode_1 = NULL;
+static TC_FETCHER dxt5_rgba_decode_1 = NULL;
 
-static TC_ENCODER fxt1_encode;
-static TC_ENCODER dxt1_rgb_encode;
-static TC_ENCODER dxt1_rgba_encode;
-static TC_ENCODER dxt3_rgba_encode;
-static TC_ENCODER dxt5_rgba_encode;
+static TC_ENCODER fxt1_encode = NULL;
+static TC_ENCODER dxt1_rgb_encode = NULL;
+static TC_ENCODER dxt1_rgba_encode = NULL;
+static TC_ENCODER dxt3_rgba_encode = NULL;
+static TC_ENCODER dxt5_rgba_encode = NULL;
 
 
 int
 tc_init (void)
 {
+#if !USE_EXTERNAL_DXTN_LIB
+    return -1;
+#else
     if (h != NULL) {
 	return 0;
     }
 
-    h = dlopen(DXTN_LIB, RTLD_NOW | RTLD_LOCAL);
+    h = _sage_dlopen(DXTN_LIB, RTLD_NOW | RTLD_LOCAL);
     if (h == NULL) {
 	return -1;
     }
@@ -78,16 +106,30 @@ tc_init (void)
     GET_PTR(TC_ENCODER, dxt5_rgba_encode);
 
     return 0;
+#endif
 }
 
 
 void
 tc_fini (void)
 {
+#if USE_EXTERNAL_DXTN_LIB
     if (h != NULL) {
-	dlclose(h);
+	_sage_dlclose(h);
 	h = NULL;
+
+	fxt1_decode_1 = NULL;
+	dxt1_rgb_decode_1 = NULL;
+	dxt1_rgba_decode_1 = NULL;
+	dxt3_rgba_decode_1 = NULL;
+	dxt5_rgba_decode_1 = NULL;
+	fxt1_encode = NULL;
+	dxt1_rgb_encode = NULL;
+	dxt1_rgba_encode = NULL;
+	dxt3_rgba_encode = NULL;
+	dxt5_rgba_encode = NULL;
     }
+#endif
 }
 
 
@@ -96,6 +138,9 @@ tc_decode (void *dst, GLenum *dst_format, GLenum *dst_type,
 	   GLsizei width, GLsizei height,
 	   const void *src, GLenum src_format)
 {
+#if !USE_EXTERNAL_DXTN_LIB
+    return NULL;
+#else
     int i, j;
     int comp;
     GLubyte *output;
@@ -152,6 +197,7 @@ tc_decode (void *dst, GLenum *dst_format, GLenum *dst_type,
     *dst_format = (comp == 3) ? GL_RGB : GL_RGBA;
     *dst_type = GL_UNSIGNED_BYTE;
     return dst;
+#endif
 }
 
 
@@ -284,6 +330,9 @@ tc_encode (const PACKING *unpack,
 	   GLenum src_format,
 	   GLenum src_type)
 {
+#if !USE_EXTERNAL_DXTN_LIB
+    return NULL;
+#else
     TC_ENCODER encoder = NULL;
     int srcStrideInBytes;
     int srcTexelBytes;
@@ -338,6 +387,7 @@ tc_encode (const PACKING *unpack,
     encoder(src_width, src_height, srcTexelBytes, src, srcStrideInBytes, dst, destRowStride);
 
     return dst;
+#endif
 }
 
 

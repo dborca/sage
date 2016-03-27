@@ -19,6 +19,7 @@ CFLAGS += -Wno-unused
 CFLAGS += -D__DOS__
 # disable software scaledown of hardware-unsupported large textures
 CFLAGS += -DFX_RESCALEHACK=0
+#CFLAGS += -DUSE_EXTERNAL_DXTN_LIB=1
 LD = $(CC)
 LDFLAGS =
 LDLIBS = -lm
