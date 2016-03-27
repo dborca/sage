@@ -5,11 +5,11 @@
 LIBNAME = "SAGE_GL 0.9.x"
 DRIVER ?= glide
 
-all: lib/libGL.a lib/gl.dxe
+all: lib/libgl.a lib/gl.dxe
 
 CC = gcc
 HOST_CC = gcc
-CFLAGS = -Wall -W -pedantic
+CFLAGS = -Wall -W
 CFLAGS += -O2
 #CFLAGS += -DNDEBUG
 #CFLAGS += -g
@@ -104,7 +104,7 @@ OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 .asm.o:
 	$(AS) -o $@ $(ASFLAGS) $<
 
-lib/libGL.a: $(OBJECTS)
+lib/libgl.a: $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
 lib/gl.dxe: $(OBJECTS)
@@ -128,6 +128,6 @@ clean::
 	-$(RM) x86/x86.inc
 
 realclean:: clean
-	-$(RM) lib/libGL.a
+	-$(RM) lib/libgl.a
 	-$(RM) lib/gl.dxe
 	-$(RM) lib/libigl.a

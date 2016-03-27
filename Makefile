@@ -8,7 +8,7 @@ all: lib/libGL.so.1.1
 
 CC = gcc
 HOST_CC = gcc
-CFLAGS = -Wall -W -pedantic
+CFLAGS = -Wall -W
 CFLAGS += -O2
 #CFLAGS += -DNDEBUG
 #CFLAGS += -g
@@ -93,7 +93,7 @@ SOURCES = $(CORE_SOURCES) $(TNL_SOURCES) $(X86_SOURCES) $(DRIVER_SOURCES)
 OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 
 .c.o:
-	$(CC) -o $@ $(CFLAGS) -c $<
+	$(CC) -o $@ $(CFLAGS) -fPIC -DPIC -c $<
 .asm.o:
 	$(AS) -o $@ $(ASFLAGS) $<
 
