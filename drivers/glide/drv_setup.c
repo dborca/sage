@@ -249,6 +249,7 @@ fxWPad (const TEXDEF *texDef, const TEX_IMG *texImage, int sclamp)
 		}
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 
@@ -320,11 +321,13 @@ fxWPad (const TEXDEF *texDef, const TEX_IMG *texImage, int sclamp)
 		}
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 
@@ -398,6 +401,7 @@ fxHPad (const TEXDEF *texDef, const TEX_IMG *texImage, int tclamp)
 
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 

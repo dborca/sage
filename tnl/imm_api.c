@@ -12,9 +12,14 @@
 void GLAPIENTRY
 imm_Begin (GLenum mode)
 {
-    if (tnl_primitive != TNL_OUTSIDE_BE) gl_assert(0);
-
-    gl_assert(tnl_prim_num < TNL_PRIM_MAX);
+    if (tnl_primitive != TNL_OUTSIDE_BE) {
+	gl_assert(0);
+	return;
+    }
+    if (tnl_prim_num >= TNL_PRIM_MAX) {
+	gl_assert(0);
+	return;
+    }
 
     /* start building a new primitive */
     tnl_prim[tnl_prim_num].start = tnl_vb.num;
@@ -30,7 +35,10 @@ imm_Begin (GLenum mode)
 void GLAPIENTRY
 imm_End (void)
 {
-    if (tnl_primitive == TNL_OUTSIDE_BE) gl_assert(0);
+    if (tnl_primitive == TNL_OUTSIDE_BE) {
+	gl_assert(0);
+	return;
+    }
 
     /* close the primitive */
     tnl_prim[tnl_prim_num - 1].name |= TNL_PRIM_END;

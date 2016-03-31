@@ -198,7 +198,15 @@ imm_EdgeFlagv (const GLboolean *flag)
 void GLAPIENTRY
 imm_Materialf (GLenum face, GLenum pname, GLfloat param)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     switch (pname) {
 	case GL_SHININESS:
@@ -206,6 +214,7 @@ imm_Materialf (GLenum face, GLenum pname, GLfloat param)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 
@@ -213,7 +222,15 @@ imm_Materialf (GLenum face, GLenum pname, GLfloat param)
 void GLAPIENTRY
 imm_Materialfv (GLenum face, GLenum pname, const GLfloat *params)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     switch (pname) {
 	case GL_AMBIENT:
@@ -237,6 +254,7 @@ imm_Materialfv (GLenum face, GLenum pname, const GLfloat *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 
@@ -740,7 +758,15 @@ imm_FogCoorddv (const GLdouble *v)
 void GLAPIENTRY
 imm_Materiali (GLenum face, GLenum pname, GLint param)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     switch (pname) {
 	case GL_SHININESS:
@@ -748,6 +774,7 @@ imm_Materiali (GLenum face, GLenum pname, GLint param)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 
@@ -755,7 +782,15 @@ imm_Materiali (GLenum face, GLenum pname, GLint param)
 void GLAPIENTRY
 imm_Materialiv (GLenum face, GLenum pname, const GLint *params)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     switch (pname) {
 	case GL_AMBIENT:
@@ -779,6 +814,7 @@ imm_Materialiv (GLenum face, GLenum pname, const GLint *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 

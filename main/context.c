@@ -495,6 +495,8 @@ gl_enum (GLenum e)
 	    return "GL_STACK_UNDERFLOW";
 	case GL_INVALID_ENUM:
 	    return "GL_INVALID_ENUM";
+	case GL_OUT_OF_MEMORY:
+	    return "GL_OUT_OF_MEMORY";
 	case GL_INVALID_VALUE:
 	default:
 	    return "GL_INVALID_VALUE";

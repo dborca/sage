@@ -13,9 +13,26 @@
 void GLAPIENTRY
 imm_ColorMaterial (GLenum face, GLenum mode)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
-    gl_assert(mode == GL_EMISSION || mode == GL_AMBIENT || mode == GL_DIFFUSE ||
-	      mode == GL_SPECULAR || mode == GL_AMBIENT_AND_DIFFUSE);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
+    switch (mode) {
+    case GL_EMISSION:
+    case GL_AMBIENT:
+    case GL_DIFFUSE:
+    case GL_SPECULAR:
+    case GL_AMBIENT_AND_DIFFUSE:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
     /* XXX must be outside begin/end */
 
     FLUSH_VERTICES();
@@ -30,7 +47,12 @@ imm_ColorMaterial (GLenum face, GLenum mode)
 void GLAPIENTRY
 imm_ShadeModel (GLenum mode)
 {
-    gl_assert(mode == GL_SMOOTH || mode == GL_FLAT);
+    switch (mode) {
+    case GL_SMOOTH:
+    case GL_FLAT:	break;
+    default: gl_assert(0);
+	return;
+    }
 
     FLUSH_VERTICES();
 
