@@ -748,6 +748,9 @@ static struct {
 #define ALIAS(x, y) \
     { "gl" #x #y, (SageProc)gl##x },
 #include "../../main/alias.h"
+    { "glLockArraysEXT", (SageProc)glLockArraysEXT },
+    { "glUnlockArraysEXT", (SageProc)glUnlockArraysEXT },
+    { "glPolygonOffsetEXT", (SageProc)glPolygonOffsetEXT }
 };
 
 SageProc
