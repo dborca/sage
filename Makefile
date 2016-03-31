@@ -11,7 +11,7 @@ HOST_CC = gcc
 CFLAGS = -Wall -W
 CFLAGS += -O2
 # in case of problems disable -DNDEBUG to enable assertions
-#CFLAGS += -DNDEBUG
+CFLAGS += -DNDEBUG
 #CFLAGS += -g
 #CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
