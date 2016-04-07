@@ -20,7 +20,7 @@ CFLAGS += -Wno-unused
 #CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)
 LDFLAGS =
-LDLIBS = -lm
+LDLIBS = -lX11 -ldl -lm
 AS = nasm
 ASFLAGS = -O2 -felf -D__linux__ -Ix86/ -Imain/
 

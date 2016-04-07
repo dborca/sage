@@ -6,8 +6,9 @@ DRIVER ?= glide
 
 all: lib/libGL.so.1.1
 
-CC = /opt/intel/cc/9.0/bin/icc
-HOST_CC = /opt/intel/cc/9.0/bin/icc
+#CC = /opt/intel/cc/9.0/bin/icc
+CC = icc
+HOST_CC = icc
 CFLAGS = -Wall
 CFLAGS += -O2 -ip
 # in case of problems disable -DNDEBUG to enable assertions
@@ -19,7 +20,7 @@ CFLAGS += -I. -Iinclude -Idrivers
 #CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)
 LDFLAGS = -i-static
-LDLIBS = -lm
+LDLIBS = -lX11 -ldl -lm
 AS = nasm
 ASFLAGS = -O2 -felf -D__linux__ -Ix86/ -Imain/
 
