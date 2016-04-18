@@ -6,9 +6,9 @@ DRIVER ?= glide
 
 all: lib/opengl32.dll lib/libopengl32.a
 
-CC = mingw32-gcc
-HOST_CC = mingw32-gcc
-CFLAGS = -Wall -W
+CC      = gcc
+HOST_CC = gcc
+CFLAGS  = -m32 -Wall -W
 CFLAGS += -O2
 # in case of problems disable -DNDEBUG to enable assertions
 CFLAGS += -DNDEBUG
@@ -19,13 +19,12 @@ CFLAGS += -Wno-unused
 # disable software scaledown of hardware-unsupported large textures
 #CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)
-LDFLAGS = -Wl,--enable-auto-image-base -Wl,--no-undefined
+LDFLAGS = -m32 -Wl,--enable-auto-image-base -Wl,--no-undefined
 LDLIBS = -lm
 AS = nasm
 ASFLAGS = -O2 -fwin32 -D__WIN32__ -Ix86/ -Imain/ --prefix _
 RC = windres
-RCFLAGS = -O coff
-DLLTOOL = dlltool
+RCFLAGS = --output-format=coff --target=pe-i386
 
 CORE_SOURCES = \
 	util/cfg.c \
