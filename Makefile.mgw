@@ -19,12 +19,13 @@ CFLAGS += -Wno-unused
 # disable software scaledown of hardware-unsupported large textures
 #CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)
-LDFLAGS = -m32 -Wl,--enable-auto-image-base -Wl,--no-undefined
+LDFLAGS = -m32 -Wl,--enable-auto-image-base -Wl,--no-undefined -Wl,-k
 LDLIBS = -lm
 AS = nasm
 ASFLAGS = -O2 -fwin32 -D__WIN32__ -Ix86/ -Imain/ --prefix _
 RC = windres
 RCFLAGS = --output-format=coff --target=pe-i386
+DLLTOOL = dlltool
 
 CORE_SOURCES = \
 	util/cfg.c \
@@ -102,9 +103,11 @@ OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 .rc.res:
 	$(RC) -o $@ $(RCFLAGS) $<
 
-lib/libopengl32.a: lib/opengl32.dll
+lib/libopengl32.a:
+	$(DLLTOOL) --as-flags=--32 -m i386 --dllname opengl32.dll --input-def drivers/opengl32.def --output-lib $@ -k
+
 lib/opengl32.dll: $(OBJECTS) drivers/$(DRIVER)/opengl.res drivers/opengl32.def
-	$(LD) -shared -o $@ $^ $(LDFLAGS) $(LDLIBS) -Xlinker --out-implib -Xlinker lib/libopengl32.a
+	$(LD) -shared -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 $(X86_SOURCES:.asm=.o): x86/x86.inc
 
