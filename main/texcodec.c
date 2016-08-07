@@ -38,7 +38,7 @@
 #define _sage_dlclose            dlclose
 #define DXTN_LIB           "dxtn.dxe"
 
-#elif defined(__WIN32__)
+#elif defined(_WIN32)
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
