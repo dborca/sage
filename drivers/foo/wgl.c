@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define _GDI32_ /* so that __declspec(dllimport) is disabled: */
                 /* this file must not use any gdi.h functions. */
+#undef __W32API_USE_DLLIMPORT /* non-standart mingw.org thing */
 #include <windows.h>
 
 #include "GL/gl.h"
