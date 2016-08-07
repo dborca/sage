@@ -9,14 +9,14 @@ all: lib/libgl.a lib/gl.dxe
 
 CC = gcc
 HOST_CC = gcc
-CFLAGS = -Wall -W
+CFLAGS  = -Wall
+CFLAGS += -Wno-unused
 CFLAGS += -O2
 # in case of problems disable -DNDEBUG to enable assertions
 CFLAGS += -DNDEBUG
 #CFLAGS += -g
 #CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
-CFLAGS += -Wno-unused
 CFLAGS += -D__DOS__
 # disable software scaledown of hardware-unsupported large textures
 CFLAGS += -DFX_RESCALEHACK=0

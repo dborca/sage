@@ -8,14 +8,14 @@ all: lib/libGL.so.1.1
 
 CC = gcc
 HOST_CC = gcc
-CFLAGS = -Wall -W
+CFLAGS  = -Wall
+CFLAGS += -Wno-unused
 CFLAGS += -O2
 # in case of problems disable -DNDEBUG to enable assertions
 CFLAGS += -DNDEBUG
 #CFLAGS += -g
 #CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
-CFLAGS += -Wno-unused
 # disable software scaledown of hardware-unsupported large textures
 #CFLAGS += -DFX_RESCALEHACK=0
 LD = $(CC)

@@ -9,7 +9,7 @@ all: lib/libGL.so.1.1
 #CC = /opt/intel/cc/9.0/bin/icc
 CC = icc
 HOST_CC = icc
-CFLAGS = -Wall
+CFLAGS  = -Wall
 CFLAGS += -O2 -ip
 # in case of problems disable -DNDEBUG to enable assertions
 CFLAGS += -DNDEBUG
