@@ -660,14 +660,14 @@ sage_bind (sageContext *ctx, void *win, int width, int height)
     }
 
     if (hwext_pixext) {
-	ctx->gr_ctx = gfSstWinOpenExt((int)win,
+	ctx->gr_ctx = gfSstWinOpenExt((FxU32)win,
 				findBestRes(width, height),
 				GR_REFRESH_60Hz,
 				GR_COLORFORMAT_ABGR,
 				GR_ORIGIN_LOWER_LEFT,
 				ctx->fmt, 2, 1);
     } else if (ctx->fmt == GR_PIXFMT_RGB_565) {
-	ctx->gr_ctx = grSstWinOpen((int)win,
+	ctx->gr_ctx = grSstWinOpen((FxU32)win,
 				findBestRes(width, height),
 				GR_REFRESH_60Hz,
 				GR_COLORFORMAT_ABGR,

@@ -1572,10 +1572,10 @@ dlist_print (GLuint real_id)
 		break;
 	    default:
 		printf("--- UNKNOWN DLIST OP(%d)\n", node->op);
-		gl_assert(0);
+		assert(0);
 	}
 	node += opsize[node->op];
     }
     printf("DLIST END ---\n");
 }
-#endif
+#endif /* #if 0 */
