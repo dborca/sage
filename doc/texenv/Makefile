@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS += -Wall -W -pedantic -ansi
 CFLAGS += -O2
 
-LD = gcc
+LD = $(CC)
 LDFLAGS = -s
 LDLIBS =
 
