@@ -7,24 +7,22 @@ DRIVER ?= glide
 all: lib/libGL.so.1.1
 
 CC = gcc
-CFLAGS = -Wall -W -pedantic
+HOST_CC = gcc
+CFLAGS  = -Wall
+CFLAGS += -Wno-unused
 CFLAGS += -O2
-# CFLAGS += -ffast-math -DFAST_MATH
+# in case of problems disable -DNDEBUG to enable assertions
+CFLAGS += -DNDEBUG
+#CFLAGS += -g
+#CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
-CFLAGS += -g -Wno-unused
-LD = gcc
+# disable software scaledown of hardware-unsupported large textures
+#CFLAGS += -DFX_RESCALEHACK=0
+LD = $(CC)
 LDFLAGS =
-LDLIBS = -lm
+LDLIBS = -lX11 -ldl -lm
 AS = nasm
-ASFLAGS = -O6 -felf -D__linux__ -Ix86/ -Imain/
-
-# MSS begin
-ifeq ($(MSS),1)
-CFLAGS += -DMSS=1 -include mss.h
-LDFLAGS += -Llib
-LDLIBS += -lmss
-endif
-# MSS end
+ASFLAGS = -O2 -felf -D__linux__ -Ix86/ -Imain/
 
 CORE_SOURCES = \
 	util/cfg.c \
@@ -83,6 +81,8 @@ X86_SOURCES = \
 	x86/sse_mat.asm \
 	x86/sse_clip.asm \
 	x86/sse_misc.asm
+
+x86/x86.o: x86/x86chk.h
 endif
 
 include drivers/$(DRIVER)/config
@@ -94,7 +94,7 @@ SOURCES = $(CORE_SOURCES) $(TNL_SOURCES) $(X86_SOURCES) $(DRIVER_SOURCES)
 OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 
 .c.o:
-	$(CC) -o $@ $(CFLAGS) -c $<
+	$(CC) -o $@ $(CFLAGS) -fPIC -DPIC -c $<
 .asm.o:
 	$(AS) -o $@ $(ASFLAGS) $<
 
@@ -106,13 +106,17 @@ $(X86_SOURCES:.asm=.o): x86/x86.inc
 x86/x86.inc: x86/x86gen.exe
 	$< -o $@
 
+x86/x86chk.h: x86/x86gen.exe
+	$< -c -o $@
+
 x86/x86gen.exe: x86/x86gen.c glinternal.h main/context.h main/matrix.h tnl/tnl.h x86/cpu.h
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+	$(HOST_CC) -o $@ $(CFLAGS) $<
 
 clean::
 	-$(RM) $(OBJECTS)
 	-$(RM) x86/*.o
+	-$(RM) x86/x86chk.h
+	-$(RM) x86/x86.inc
 
 realclean:: clean
-	-$(RM) x86/x86.inc
 	-$(RM) lib/libGL.so.1.1

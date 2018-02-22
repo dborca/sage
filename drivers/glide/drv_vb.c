@@ -452,7 +452,7 @@ vb_init (void)
     init_q0q1fs();
 
 #ifdef X86
-    if (x86_cpu_bits & _CPU_FEATURE_SSE) {
+    if ((x86_cpu_bits & _CPU_FEATURE_SSE) && x86_enable_sse) {
 	extern void sse_emitvertices_g (int n);
 	extern void sse_emitvertices_t0 (int n);
 	extern void sse_emitvertices_q0 (int n);
@@ -499,7 +499,8 @@ vb_init (void)
 	vb_handler[SETUP_TEX0|SETUP_TEX1|SETUP_PTX1].emit_func = sse_emitvertices_t0q1;
 	vb_handler[SETUP_TEX0|SETUP_PTX0|SETUP_TEX1|SETUP_PTX1].emit_func = sse_emitvertices_q0q1;
     }
-    if (x86_cpu_bits & _CPU_FEATURE_3DNOW) {
+    else
+    if ((x86_cpu_bits & _CPU_FEATURE_3DNOW) && x86_enable_3dnow) {
 	extern void k3d_emitvertices_g (int n);
 	extern void k3d_emitvertices_t0 (int n);
 	extern void k3d_emitvertices_q0 (int n);

@@ -37,6 +37,7 @@ imm_Fogfv (GLenum pname, const GLfloat *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_FOG;
@@ -82,6 +83,7 @@ imm_Fogiv (GLenum pname, const GLint *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_FOG;

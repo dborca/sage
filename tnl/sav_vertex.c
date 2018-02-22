@@ -198,8 +198,22 @@ sav_EdgeFlagv (const GLboolean *flag)
 void GLAPIENTRY
 sav_Materialf (GLenum face, GLenum pname, GLfloat param)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
-    gl_assert(pname == GL_SHININESS);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
+    switch (pname) {
+    case GL_SHININESS:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     MAT_F(1, face, pname, param, 0.0F, 0.0F, 0.0F);
 }
@@ -208,14 +222,28 @@ sav_Materialf (GLenum face, GLenum pname, GLfloat param)
 void GLAPIENTRY
 sav_Materialfv (GLenum face, GLenum pname, const GLfloat *params)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
-    gl_assert(pname == GL_AMBIENT ||
-	      pname == GL_DIFFUSE ||
-	      pname == GL_SPECULAR ||
-	      pname == GL_EMISSION ||
-	      pname == GL_SHININESS ||
-	      pname == GL_AMBIENT_AND_DIFFUSE);
+    switch (pname) {
+    case GL_AMBIENT:
+    case GL_DIFFUSE:
+    case GL_SPECULAR:
+    case GL_EMISSION:
+    case GL_SHININESS:
+    case GL_AMBIENT_AND_DIFFUSE:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     if (pname != GL_SHININESS) {
 	MAT_F(4, face, pname, params[0], params[1], params[2], params[3]);
@@ -724,8 +752,22 @@ sav_FogCoorddv (const GLdouble *v)
 void GLAPIENTRY
 sav_Materiali (GLenum face, GLenum pname, GLint param)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
-    gl_assert(pname == GL_SHININESS);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
+    switch (pname) {
+    case GL_SHININESS:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     MAT_F(1, face, pname, (GLfloat)param, 0.0F, 0.0F, 0.0F);
 }
@@ -734,14 +776,28 @@ sav_Materiali (GLenum face, GLenum pname, GLint param)
 void GLAPIENTRY
 sav_Materialiv (GLenum face, GLenum pname, const GLint *params)
 {
-    gl_assert(face == GL_FRONT || face == GL_BACK || face == GL_FRONT_AND_BACK);
+    switch (face) {
+    case GL_FRONT:
+    case GL_BACK:
+    case GL_FRONT_AND_BACK:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
-    gl_assert(pname == GL_AMBIENT ||
-	      pname == GL_DIFFUSE ||
-	      pname == GL_SPECULAR ||
-	      pname == GL_EMISSION ||
-	      pname == GL_SHININESS ||
-	      pname == GL_AMBIENT_AND_DIFFUSE);
+    switch (pname) {
+    case GL_AMBIENT:
+    case GL_DIFFUSE:
+    case GL_SPECULAR:
+    case GL_EMISSION:
+    case GL_SHININESS:
+    case GL_AMBIENT_AND_DIFFUSE:
+	break;
+    default:
+	gl_assert(0);
+	return;
+    }
 
     if (pname != GL_SHININESS) {
 	MAT_F(4, face, pname, I_TO_FLOAT(params[0]), I_TO_FLOAT(params[1]), I_TO_FLOAT(params[2]), I_TO_FLOAT(params[3]));

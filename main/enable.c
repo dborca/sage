@@ -271,6 +271,8 @@ GLboolean GLAPIENTRY
 imm_IsEnabled (GLenum cap)
 {
     switch (cap) {
+	case GL_ALPHA_TEST:
+	    return ctx_color.alpha_test;
 	case GL_FOG:
 	    return ctx_fog.fogging;
 	default:

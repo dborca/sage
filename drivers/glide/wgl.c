@@ -1,4 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
+#define _GDI32_ /* so that __declspec(dllimport) is disabled: */
+                /* this file must not use any gdi.h functions. */
+#undef __W32API_USE_DLLIMPORT /* non-standart mingw.org thing */
 #include <windows.h>
 
 #include "GL/gl.h"
@@ -123,18 +126,18 @@ wglSwapIntervalEXT (int i)
 
 
 GLAPI void GLAPIENTRY glTexImage3D( GLenum target, GLint level,
-                                      GLint internalFormat,
-                                      GLsizei width, GLsizei height,
-                                      GLsizei depth, GLint border,
-                                      GLenum format, GLenum type,
-                                      const GLvoid *pixels ) { WINLOG((eff, "%s: NYI\n", __FUNCTION__)); }
+                                    GLint internalFormat,
+                                    GLsizei width, GLsizei height,
+                                    GLsizei depth, GLint border,
+                                    GLenum format, GLenum type,
+                                    const GLvoid *pixels ) { WINLOG((eff, "%s: NYI\n", __FUNCTION__)); }
 
 GLAPI void GLAPIENTRY glTexSubImage3D( GLenum target, GLint level,
-                                         GLint xoffset, GLint yoffset,
-                                         GLint zoffset, GLsizei width,
-                                         GLsizei height, GLsizei depth,
-                                         GLenum format,
-                                         GLenum type, const GLvoid *pixels) { WINLOG((eff, "%s: NYI\n", __FUNCTION__)); }
+                                       GLint xoffset, GLint yoffset,
+                                       GLint zoffset, GLsizei width,
+                                       GLsizei height, GLsizei depth,
+                                       GLenum format,
+                                       GLenum type, const GLvoid *pixels) { WINLOG((eff, "%s: NYI\n", __FUNCTION__)); }
 
 
 #include "wgl_inc.c"
@@ -387,26 +390,6 @@ wglSetPixelFormat (HDC hdc, int iPixelFormat, CONST PIXELFORMATDESCRIPTOR *ppfd)
     if (numPixelFormats == 0) {
 	return FALSE;
     }
-
-#if 0
-    /* Make sure the object supports this pixel format */
-    switch (GetObjectType(hdc)) {
-	case OBJ_DC:
-	    if (!(pfd.dwFlags & PFD_DRAW_TO_WINDOW)) {
-		return FALSE;
-	    }
-	    break;
-	case OBJ_MEMDC:
-	    if (!(pfd.dwFlags & PFD_DRAW_TO_BITMAP)) {
-		return FALSE;
-	    }
-	    break;
-	default:
-	    return FALSE;
-    }
-
-    GdiSetPixelFormat(hDC, iPixelFormat);
-#endif
 
     pixelFormat = iPixelFormat;
     return TRUE;

@@ -48,6 +48,7 @@
 		break;					\
 	    default:					\
 		gl_assert(0);				\
+		return;					\
 	}						\
 	a->size = sz;					\
 	a->type = e_type;				\
@@ -455,6 +456,7 @@ imm_EnableClientState (GLenum cap)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 
@@ -518,6 +520,7 @@ imm_DisableClientState (GLenum cap)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 }
 
@@ -642,6 +645,7 @@ imm_DrawElements (GLenum mode, GLsizei count,
 	}
 	default:
 	    gl_assert(0);
+	    break;
     }
     imm_End();
 }

@@ -2,32 +2,40 @@
 .SUFFIXES: .asm .o
 .INTERMEDIATE: x86/x86gen.exe
 
+LIBNAME = "SAGE_GL 0.9.x"
 DRIVER ?= glide
 
-all: lib/libGL.a
+all: lib/libgl.a lib/gl.dxe
 
 CC = gcc
-CFLAGS = -Wall -W -pedantic
+HOST_CC = gcc
+CFLAGS  = -Wall
+CFLAGS += -Wno-unused
 CFLAGS += -O2
-# CFLAGS += -ffast-math -DFAST_MATH
+# in case of problems disable -DNDEBUG to enable assertions
+CFLAGS += -DNDEBUG
+#CFLAGS += -g
+#CFLAGS += -ffast-math -DFAST_MATH
 CFLAGS += -I. -Iinclude -Idrivers
-CFLAGS += -g -Wno-unused
 CFLAGS += -D__DOS__
-LD = gcc
+# disable software scaledown of hardware-unsupported large textures
+CFLAGS += -DFX_RESCALEHACK=0
+#CFLAGS += -DUSE_EXTERNAL_DXTN_LIB=1
+LD = $(CC)
 LDFLAGS =
 LDLIBS = -lm
 AS = nasm
-ASFLAGS = -O6 -fcoff -D__DJGPP__ -Ix86/ -Imain/ --prefix _
+ASFLAGS = -O2 -fcoff -D__DJGPP__ -Ix86/ -Imain/ --prefix _
+# workaround the sse issue in DXE builds: note that this
+# is only needed for DXE, but not for the static library.
+ASFLAGS+= -DBROKEN_MOVAPS
 AR = ar
 ARFLAGS = crus
-
-# MSS begin
-ifeq ($(MSS),1)
-CFLAGS += -DMSS=1 -include mss.h
-LDFLAGS += -Llib
-LDLIBS += -lmss
+DXE3GEN = dxe3gen
+DXE3FLAGS = -E _sage_ -E _gl -X _gl_
+ifeq ($(DRIVER),glide)
+DXE3FLAGS+= -P glide3x.dxe
 endif
-# MSS end
 
 CORE_SOURCES = \
 	util/cfg.c \
@@ -86,6 +94,8 @@ X86_SOURCES = \
 	x86/sse_mat.asm \
 	x86/sse_clip.asm \
 	x86/sse_misc.asm
+
+x86/x86.o: x86/x86chk.h
 endif
 
 include drivers/$(DRIVER)/config
@@ -99,21 +109,30 @@ OBJECTS = $(addsuffix .o,$(basename $(SOURCES)))
 .asm.o:
 	$(AS) -o $@ $(ASFLAGS) $<
 
-lib/libGL.a: $(OBJECTS)
+lib/libgl.a: $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
+
+lib/gl.dxe: $(OBJECTS)
+	-$(DXE3GEN) -o $@ -Y lib/libigl.a -D $(LIBNAME) $(DXE3FLAGS) -U $(OBJECTS)
 
 $(X86_SOURCES:.asm=.o): x86/x86.inc
 
 x86/x86.inc: x86/x86gen.exe
 	$< -o $@
 
+x86/x86chk.h: x86/x86gen.exe
+	$< -c -o $@
+
 x86/x86gen.exe: x86/x86gen.c glinternal.h main/context.h main/matrix.h tnl/tnl.h x86/cpu.h
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $<
+	$(HOST_CC) -o $@ $(CFLAGS) $<
 
 clean::
 	-$(RM) $(OBJECTS)
 	-$(RM) x86/*.o
+	-$(RM) x86/x86chk.h
+	-$(RM) x86/x86.inc
 
 realclean:: clean
-	-$(RM) x86/x86.inc
-	-$(RM) lib/libGL.a
+	-$(RM) lib/libgl.a
+	-$(RM) lib/gl.dxe
+	-$(RM) lib/libigl.a

@@ -53,7 +53,7 @@
 
 %macro		endp	0
 	%ifnctx	proc
-		%error	Mismatched `endp'/`proc'
+		%error	Mismatched ENDP/PROC
 	%else
 		%$end:
 		%pop
@@ -109,4 +109,14 @@
 %macro	dllexp	1
 %endmacro
 
+%endif
+
+;---------------------------------------
+; movaps is broken in DJGPP DXE builds -
+; possibly an issue in the dxe3gen tool.
+;---------------------------------------
+%ifdef BROKEN_MOVAPS
+%define MOVUAPS movups
+%else
+%define MOVUAPS movaps
 %endif

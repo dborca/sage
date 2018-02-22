@@ -448,6 +448,7 @@ sav_DrawElements (GLenum mode, GLsizei count,
 	}
 	default:
 	    gl_assert(0);
+	    break;
     }
     sav_End();
 }

@@ -527,6 +527,7 @@ imm_TexEnvfv (GLenum target, GLenum pname, const GLfloat *params)
 		    break;
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 	case GL_TEXTURE_FILTER_CONTROL:
@@ -538,6 +539,7 @@ imm_TexEnvfv (GLenum target, GLenum pname, const GLfloat *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;
@@ -588,6 +590,7 @@ imm_TexParameterfv (GLenum target, GLenum pname, const GLfloat *params)
 	default:
 	    gl_error(NULL, GL_INVALID_VALUE, "%s: %x\n", __FUNCTION__, pname);
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;
@@ -627,6 +630,7 @@ imm_TexGenfv (GLenum coord, GLenum pname, const GLfloat *params)
 		    break;
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 	case GL_OBJECT_PLANE:
@@ -640,6 +644,7 @@ imm_TexGenfv (GLenum coord, GLenum pname, const GLfloat *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;
@@ -788,6 +793,7 @@ imm_TexEnviv (GLenum target, GLenum pname, const GLint *params)
 		    break;
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 	case GL_TEXTURE_FILTER_CONTROL:
@@ -799,6 +805,7 @@ imm_TexEnviv (GLenum target, GLenum pname, const GLint *params)
 	    break;
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;
@@ -849,6 +856,7 @@ imm_TexParameteriv (GLenum target, GLenum pname, const GLint *params)
 	default:
 	    gl_error(NULL, GL_INVALID_VALUE, "%s: %x\n", __FUNCTION__, pname);
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;
@@ -888,6 +896,7 @@ imm_TexGeniv (GLenum coord, GLenum pname, const GLint *params)
 		    break;
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 	case GL_OBJECT_PLANE:
@@ -907,6 +916,7 @@ imm_TexGeniv (GLenum coord, GLenum pname, const GLint *params)
 	}
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;
@@ -946,6 +956,7 @@ imm_TexGendv (GLenum coord, GLenum pname, const GLdouble *params)
 		    break;
 		default:
 		    gl_assert(0);
+		    return;
 	    }
 	    break;
 	case GL_OBJECT_PLANE:
@@ -965,6 +976,7 @@ imm_TexGendv (GLenum coord, GLenum pname, const GLdouble *params)
 	}
 	default:
 	    gl_assert(0);
+	    return;
     }
 
     ctx_gl_state |= NEW_TEXTURE;

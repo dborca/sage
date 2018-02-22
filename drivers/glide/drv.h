@@ -154,18 +154,31 @@ extern int allow_compressed;
 extern int allow_multitex;
 
 
-extern char * (FX_CALL *gfGetRegistryOrEnvironmentStringExt) (char *theEntry);
-extern GrContext_t (FX_CALL *gfSstWinOpenExt) (FxU32 hWnd, GrScreenResolution_t resolution, GrScreenRefresh_t refresh, GrColorFormat_t format, GrOriginLocation_t origin, GrPixelFormat_t pixelformat, int nColBuffers, int nAuxBuffers);
-extern void (FX_CALL *gfBufferClearExt) (GrColor_t color, GrAlpha_t alpha, FxU32 depth, GrStencil_t stencil);
-extern void (FX_CALL *gfColorMaskExt) (FxBool r, FxBool g, FxBool b, FxBool a);
-extern void (FX_CALL *gfStencilFuncExt) (GrCmpFnc_t fnc, GrStencil_t ref, GrStencil_t mask);
-extern void (FX_CALL *gfStencilMaskExt) (GrStencil_t value);
-extern void (FX_CALL *gfStencilOpExt) (GrStencilOp_t stencil_fail, GrStencilOp_t depth_fail, GrStencilOp_t depth_pass);
-extern void (FX_CALL *gfColorCombineExt) (GrCCUColor_t a, GrCombineMode_t a_mode, GrCCUColor_t b, GrCombineMode_t b_mode, GrCCUColor_t c, FxBool c_invert, GrCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-extern void (FX_CALL *gfAlphaCombineExt) (GrACUColor_t a, GrCombineMode_t a_mode, GrACUColor_t b, GrCombineMode_t b_mode, GrACUColor_t c, FxBool c_invert, GrACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-extern void (FX_CALL *gfTexColorCombineExt) (GrChipID_t tmu, GrTCCUColor_t a, GrCombineMode_t a_mode, GrTCCUColor_t b, GrCombineMode_t b_mode, GrTCCUColor_t c, FxBool c_invert, GrTCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-extern void (FX_CALL *gfTexAlphaCombineExt) (GrChipID_t tmu, GrTACUColor_t a, GrCombineMode_t a_mode, GrTACUColor_t b, GrCombineMode_t b_mode, GrTACUColor_t c, FxBool c_invert, GrTACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-extern void (FX_CALL *gfConstantColorValueExt) (GrChipID_t tmu, GrColor_t value);
+typedef char * (FX_CALL *gfGetRegistryOrEnvironmentStringExt_f) (char *theEntry);
+typedef GrContext_t (FX_CALL *gfSstWinOpenExt_f) (FxU32 hWnd, GrScreenResolution_t resolution, GrScreenRefresh_t refresh, GrColorFormat_t format, GrOriginLocation_t origin, GrPixelFormat_t pixelformat, int nColBuffers, int nAuxBuffers);
+typedef void (FX_CALL *gfBufferClearExt_f) (GrColor_t color, GrAlpha_t alpha, FxU32 depth, GrStencil_t stencil);
+typedef void (FX_CALL *gfColorMaskExt_f) (FxBool r, FxBool g, FxBool b, FxBool a);
+typedef void (FX_CALL *gfStencilFuncExt_f) (GrCmpFnc_t fnc, GrStencil_t ref, GrStencil_t mask);
+typedef void (FX_CALL *gfStencilMaskExt_f) (GrStencil_t value);
+typedef void (FX_CALL *gfStencilOpExt_f) (GrStencilOp_t stencil_fail, GrStencilOp_t depth_fail, GrStencilOp_t depth_pass);
+typedef void (FX_CALL *gfColorCombineExt_f) (GrCCUColor_t a, GrCombineMode_t a_mode, GrCCUColor_t b, GrCombineMode_t b_mode, GrCCUColor_t c, FxBool c_invert, GrCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+typedef void (FX_CALL *gfAlphaCombineExt_f) (GrACUColor_t a, GrCombineMode_t a_mode, GrACUColor_t b, GrCombineMode_t b_mode, GrACUColor_t c, FxBool c_invert, GrACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+typedef void (FX_CALL *gfTexColorCombineExt_f) (GrChipID_t tmu, GrTCCUColor_t a, GrCombineMode_t a_mode, GrTCCUColor_t b, GrCombineMode_t b_mode, GrTCCUColor_t c, FxBool c_invert, GrTCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+typedef void (FX_CALL *gfTexAlphaCombineExt_f) (GrChipID_t tmu, GrTACUColor_t a, GrCombineMode_t a_mode, GrTACUColor_t b, GrCombineMode_t b_mode, GrTACUColor_t c, FxBool c_invert, GrTACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+typedef void (FX_CALL *gfConstantColorValueExt_f) (GrChipID_t tmu, GrColor_t value);
+
+extern gfGetRegistryOrEnvironmentStringExt_f gfGetRegistryOrEnvironmentStringExt;
+extern gfSstWinOpenExt_f gfSstWinOpenExt;
+extern gfBufferClearExt_f gfBufferClearExt;
+extern gfColorMaskExt_f gfColorMaskExt;
+extern gfStencilFuncExt_f gfStencilFuncExt;
+extern gfStencilMaskExt_f gfStencilMaskExt;
+extern gfStencilOpExt_f gfStencilOpExt;
+extern gfColorCombineExt_f gfColorCombineExt;
+extern gfAlphaCombineExt_f gfAlphaCombineExt;
+extern gfTexColorCombineExt_f gfTexColorCombineExt;
+extern gfTexAlphaCombineExt_f gfTexAlphaCombineExt;
+extern gfConstantColorValueExt_f gfConstantColorValueExt;
 
 
 #define GR_TMU_SPLIT 99

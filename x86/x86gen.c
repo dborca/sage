@@ -17,6 +17,7 @@ main (int argc, char **argv)
     const char *myname = argv[0];
     char *out = NULL;
     FILE *f = stdout;
+    int c_header = 0;
 
     while (--argc) {
 	char *p = *++argv;
@@ -28,6 +29,9 @@ main (int argc, char **argv)
 	    out = *++argv;
 	    argc--;
 	}
+	else if (!strcmp(p, "-c")) {
+	    c_header = 1;
+	}
     }
 
     if (out != NULL) {
@@ -37,6 +41,9 @@ main (int argc, char **argv)
 	    return -2;
 	}
     }
+
+    if (c_header)
+	goto c_out;
 
     fprintf(f, ";---------------------------------------\n");
     fprintf(f, "; SSE\n");
@@ -118,6 +125,60 @@ main (int argc, char **argv)
     fprintf(f, "%%define qL\t\t\t%d\n", TNL_CLIP_LEFT);
     fprintf(f, "%%define qR\t\t\t%d\n", TNL_CLIP_RIGHT);
 
+    goto done;
+
+c_out:
+    fprintf(f, "#define SAGE_COMPILE_TIME_ASSERT(name, x) typedef int _chk_ ## name[(x) * 2 - 1]\n");
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_HAS_CPUID_,_CPU_HAS_CPUID==%d);\n", _CPU_HAS_CPUID);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_FEATURE_MMX_,_CPU_FEATURE_MMX==%d);\n", _CPU_FEATURE_MMX);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_FEATURE_SSE_,_CPU_FEATURE_SSE==%d);\n", _CPU_FEATURE_SSE);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_FEATURE_SSE2_,_CPU_FEATURE_SSE2==%d);\n", _CPU_FEATURE_SSE2);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_FEATURE_3DNOW_,_CPU_FEATURE_3DNOW==%d);\n", _CPU_FEATURE_3DNOW);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_FEATURE_3DNOWPLUS_,_CPU_FEATURE_3DNOWPLUS==%d);\n", _CPU_FEATURE_3DNOWPLUS);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(_CPU_FEATURE_MMXPLUS_,_CPU_FEATURE_MMXPLUS==%d);\n", _CPU_FEATURE_MMXPLUS);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(GL_TEXTURE0_,GL_TEXTURE0==%d);\n", GL_TEXTURE0);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(MAT_MAT,offsetof(MATRIX, mat)==%d);\n", offsetof(MATRIX, mat));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TEX_UNIT_OBJECT,offsetof(TEX_UNIT, object)==%d);\n", offsetof(TEX_UNIT, object));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(sizeof_TEX_UNIT,sizeof(TEX_UNIT)==%d);\n", sizeof(TEX_UNIT));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TEX_OBJ_DRIVERDATA,offsetof(TEX_OBJ, driverData)==%d);\n", offsetof(TEX_OBJ, driverData));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_COLOR0_BIT_,TNL_COLOR0_BIT==%d);\n", TNL_COLOR0_BIT);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_NORMAL_BIT_,TNL_NORMAL_BIT==%d);\n", TNL_NORMAL_BIT);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_TEXCOORD0_BIT_,TNL_TEXCOORD0_BIT==%d);\n", TNL_TEXCOORD0_BIT);
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(sizeof_TNL_ARRAY,sizeof(TNL_ARRAY)==%d);\n", sizeof(TNL_ARRAY));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(PRIM_COUNT,offsetof(TNL_PRIMITIVE, count)==%d);\n", offsetof(TNL_PRIMITIVE, count));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(PRIM_ORMASK,offsetof(TNL_PRIMITIVE, ormask)==%d);\n", offsetof(TNL_PRIMITIVE, ormask));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(sizeof_TNL_PRIMITIVE,sizeof(TNL_PRIMITIVE)==%d);\n", sizeof(TNL_PRIMITIVE));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_NUM,offsetof(TNL_VERTEXBUFFER, num)==%d);\n", offsetof(TNL_VERTEXBUFFER, num));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_MAX,offsetof(TNL_VERTEXBUFFER, max)==%d);\n", offsetof(TNL_VERTEXBUFFER, max));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_LEN,offsetof(TNL_VERTEXBUFFER, len)==%d);\n", offsetof(TNL_VERTEXBUFFER, len));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_FLAGS,offsetof(TNL_VERTEXBUFFER, flags)==%d);\n", offsetof(TNL_VERTEXBUFFER, flags));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_CLIPMASK,offsetof(TNL_VERTEXBUFFER, clipmask)==%d);\n", offsetof(TNL_VERTEXBUFFER, clipmask));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_VERTEX_STRIDE,offsetof(TNL_VERTEXBUFFER, attr[TNL_VERTEX].stride)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_VERTEX].stride));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_VERTEX_DATA,offsetof(TNL_VERTEXBUFFER, attr[TNL_VERTEX].data)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_VERTEX].data));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_VERTEX_PTR,offsetof(TNL_VERTEXBUFFER, attr[TNL_VERTEX].ptr)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_VERTEX].ptr));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_COLOR0_STRIDE,offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR0].stride)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR0].stride));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_COLOR0_DATA,offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR0].data)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR0].data));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_COLOR0_PTR,offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR0].ptr)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR0].ptr));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_COLOR1_STRIDE,offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR1].stride)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR1].stride));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_COLOR1_DATA,offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR1].data)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR1].data));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_COLOR1_PTR,offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR1].ptr)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_COLOR1].ptr));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_NORMAL_STRIDE,offsetof(TNL_VERTEXBUFFER, attr[TNL_NORMAL].stride)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_NORMAL].stride));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_NORMAL_DATA,offsetof(TNL_VERTEXBUFFER, attr[TNL_NORMAL].data)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_NORMAL].data));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_NORMAL_PTR,offsetof(TNL_VERTEXBUFFER, attr[TNL_NORMAL].ptr)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_NORMAL].ptr));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_TEXCOORD0_STRIDE,offsetof(TNL_VERTEXBUFFER, attr[TNL_TEXCOORD0].stride)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_TEXCOORD0].stride));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_TEXCOORD0_DATA,offsetof(TNL_VERTEXBUFFER, attr[TNL_TEXCOORD0].data)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_TEXCOORD0].data));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_TEXCOORD0_PTR,offsetof(TNL_VERTEXBUFFER, attr[TNL_TEXCOORD0].ptr)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_TEXCOORD0].ptr));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_FOGCOORD_STRIDE,offsetof(TNL_VERTEXBUFFER, attr[TNL_FOGCOORD].stride)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_FOGCOORD].stride));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_FOGCOORD_DATA,offsetof(TNL_VERTEXBUFFER, attr[TNL_FOGCOORD].data)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_FOGCOORD].data));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_FOGCOORD_PTR,offsetof(TNL_VERTEXBUFFER, attr[TNL_FOGCOORD].ptr)==%d);\n", offsetof(TNL_VERTEXBUFFER, attr[TNL_FOGCOORD].ptr));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_CLIP,offsetof(TNL_VERTEXBUFFER, clip)==%d);\n", offsetof(TNL_VERTEXBUFFER, clip));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_NDC,offsetof(TNL_VERTEXBUFFER, ndc)==%d);\n", offsetof(TNL_VERTEXBUFFER, ndc));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_VEYE,offsetof(TNL_VERTEXBUFFER, veye)==%d);\n", offsetof(TNL_VERTEXBUFFER, veye));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_NEYE,offsetof(TNL_VERTEXBUFFER, neye)==%d);\n", offsetof(TNL_VERTEXBUFFER, neye));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_VEYN,offsetof(TNL_VERTEXBUFFER, veyn)==%d);\n", offsetof(TNL_VERTEXBUFFER, veyn));
+    fprintf(f, "SAGE_COMPILE_TIME_ASSERT(TNL_VB_REFL,offsetof(TNL_VERTEXBUFFER, refl)==%d);\n", offsetof(TNL_VERTEXBUFFER, refl));
+
+done:
     if (out != NULL) {
 	fclose(f);
     }

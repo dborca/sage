@@ -37,7 +37,7 @@
 GLAPI void GLAPIENTRY
 myBlendColorEXT (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
    static PFNGLBLENDCOLOREXTPROC BlendColorEXT = NULL;
    if (BlendColorEXT == NULL) {
       BlendColorEXT = (PFNGLBLENDCOLOREXTPROC)wglGetProcAddress("glBlendColorEXT");
@@ -54,7 +54,7 @@ myBlendColorEXT (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
 GLAPI void GLAPIENTRY
 myBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
    static PFNGLBLENDFUNCSEPARATEEXTPROC BlendFuncSeparateEXT = NULL;
    if (BlendFuncSeparateEXT == NULL) {
       BlendFuncSeparateEXT = (PFNGLBLENDFUNCSEPARATEEXTPROC)wglGetProcAddress("glBlendFuncSeparateEXT");
@@ -71,7 +71,7 @@ myBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlph
 GLAPI void GLAPIENTRY
 myBlendEquationEXT (GLenum mode)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
    static PFNGLBLENDEQUATIONEXTPROC BlendEquationEXT = NULL;
    if (BlendEquationEXT == NULL) {
       BlendEquationEXT = (PFNGLBLENDEQUATIONEXTPROC)wglGetProcAddress("glBlendEquationEXT");
@@ -88,7 +88,7 @@ myBlendEquationEXT (GLenum mode)
 GLAPI void GLAPIENTRY
 myBlendEquationSeparateEXT (GLenum modeRGB, GLenum modeAlpha)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
    static PFNGLBLENDEQUATIONSEPARATEEXTPROC BlendEquationSeparateEXT;
    if (BlendEquationSeparateEXT == NULL) {
       BlendEquationSeparateEXT = (PFNGLBLENDEQUATIONSEPARATEEXTPROC)wglGetProcAddress("glBlendEquationSeparateEXT");
@@ -105,7 +105,7 @@ myBlendEquationSeparateEXT (GLenum modeRGB, GLenum modeAlpha)
 GLAPI void APIENTRY
 myActiveTextureARB (GLenum texture)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
    static PFNGLACTIVETEXTUREARBPROC ActiveTextureARB;
    if (ActiveTextureARB == NULL) {
       ActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress("glActiveTextureARB");
@@ -122,7 +122,7 @@ myActiveTextureARB (GLenum texture)
 GLAPI void APIENTRY
 myMultiTexCoord2fARB (GLenum target, GLfloat s, GLfloat t)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
    static PFNGLMULTITEXCOORD2FARBPROC MultiTexCoord2fARB = NULL;
    if (MultiTexCoord2fARB == NULL) {
       MultiTexCoord2fARB = (PFNGLMULTITEXCOORD2FARBPROC)wglGetProcAddress("glMultiTexCoord2fARB");
@@ -134,3 +134,4 @@ myMultiTexCoord2fARB (GLenum target, GLfloat s, GLfloat t)
    glMultiTexCoord2fARB(target, s, t);
 #endif
 }
+

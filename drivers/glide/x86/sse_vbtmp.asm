@@ -13,11 +13,11 @@ proc	TAG(sse_emitvertices)
     ; Viewport transformation
 	mov	ebx, [tnl_vb + TNL_VB_CLIPMASK]
 	mov	esi, [tnl_vb + TNL_VB_NDC]
-	movaps	xmm7, [i_xxx0]
+	MOVUAPS	xmm7, [i_xxx0]
 	movss	xmm2, [ctx_mx_viewport + MAT_MAT + 00 * 4]
 	movss	xmm1, [ctx_mx_viewport + MAT_MAT + 05 * 4]
 	movss	xmm3, [ctx_mx_viewport + MAT_MAT + 10 * 4]
-	movaps	xmm5, [f_0010]
+	MOVUAPS	xmm5, [f_0010]
 	shufps	xmm2, xmm1, SHUF(X, Y, X, Y)
 	orps	xmm3, xmm5
 	movups	xmm4, [ctx_mx_viewport + MAT_MAT + 12 * 4]
@@ -29,10 +29,10 @@ proc	TAG(sse_emitvertices)
 	mov	dword [edi + GR_VERTEX_OOW_OFFSET], 0x3f800000
 	test	al, al
 	jnz	.1
-	movaps	xmm0, [esi]
+	MOVUAPS	xmm0, [esi]
 	mulps	xmm0, xmm2
 	addps	xmm0, xmm4
-	movaps	[edi + GR_VERTEX_X_OFFSET], xmm0
+	MOVUAPS	[edi + GR_VERTEX_X_OFFSET], xmm0
 	align	16
     .1:
 	inc	ebx
@@ -50,11 +50,11 @@ proc	TAG(sse_emitvertices)
 	mov	esi, [tnl_vb + TNL_VB_COLOR0_DATA]
 	mov	ebx, [tnl_vb + TNL_VB_COLOR0_STRIDE]
 	xorps	xmm6, xmm6
-	movaps	xmm7, [f_bbbb]
+	MOVUAPS	xmm7, [f_bbbb]
 	shl	ebx, 4
 	align	16
     .2:
-	movaps	xmm0, [esi]
+	MOVUAPS	xmm0, [esi]
 	mulps	xmm0, xmm7
 %if FX_PACKEDCOLOR
 	shufps	xmm0, xmm0, SHUF(Z, Y, X, W)
@@ -68,7 +68,7 @@ proc	TAG(sse_emitvertices)
 %else  ; !FX_PACKEDCOLOR
 	minps	xmm0, xmm7
 	maxps	xmm0, xmm6
-	movaps	[edi + GR_VERTEX_RGB_OFFSET], xmm0
+	MOVUAPS	[edi + GR_VERTEX_RGB_OFFSET], xmm0
 %endif ; !FX_PACKEDCOLOR
 	add	esi, ebx
 	add	edi, sizeof_GrVertex
@@ -100,7 +100,7 @@ proc	TAG(sse_emitvertices)
 	align	16
     .3:
 	movss	xmm6, [edi + GR_VERTEX_OOW_OFFSET]
-	movaps	xmm0, [esi]
+	MOVUAPS	xmm0, [esi]
 	shufps	xmm6, xmm6, SHUF(X, X, X, X)
 	mulps	xmm0, xmm7
 	mulps	xmm0, xmm6
@@ -140,7 +140,7 @@ proc	TAG(sse_emitvertices)
 	align	16
     .4:
 	movss	xmm6, [edi + GR_VERTEX_OOW_OFFSET]
-	movaps	xmm0, [esi]
+	MOVUAPS	xmm0, [esi]
 	shufps	xmm6, xmm6, SHUF(X, X, X, X)
 	mulps	xmm0, xmm7
 	mulps	xmm0, xmm6
@@ -164,11 +164,11 @@ proc	TAG(sse_emitvertices)
 	mov	esi, [tnl_vb + TNL_VB_COLOR1_DATA]
 	mov	ebx, [tnl_vb + TNL_VB_COLOR1_STRIDE]
 	xorps	xmm6, xmm6
-	movaps	xmm7, [f_bbbb]
+	MOVUAPS	xmm7, [f_bbbb]
 	shl	ebx, 4
 	align	16
     .5:
-	movaps	xmm0, [esi]
+	MOVUAPS	xmm0, [esi]
 	mulps	xmm0, xmm7
 %if FX_PACKEDCOLOR
 	shufps	xmm0, xmm0, SHUF(Z, Y, X, W)
@@ -182,7 +182,7 @@ proc	TAG(sse_emitvertices)
 %else  ; !FX_PACKEDCOLOR
 	minps	xmm0, xmm7
 	maxps	xmm0, xmm6
-	movaps	[edi + GR_VERTEX_SPEC_OFFSET], xmm0
+	MOVUAPS	[edi + GR_VERTEX_SPEC_OFFSET], xmm0
 %endif ; !FX_PACKEDCOLOR
 	add	esi, ebx
 	add	edi, sizeof_GrVertex

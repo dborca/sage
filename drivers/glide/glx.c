@@ -1,6 +1,11 @@
 #include <dlfcn.h>
 #include <stdlib.h>
 
+/* new glx.h dependencies: */
+#include <stddef.h>
+typedef ptrdiff_t GLsizeiptr;
+typedef ptrdiff_t GLintptr;
+
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include "GL/sage.h"

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "GL/gl.h"
 #include "GL/sage.h"
@@ -30,9 +31,13 @@ sage_init (void)
 	return 32;
     }
 
+#if defined(__MSDOS__)||defined(_WIN32)
+    cfg_load("sage.ini");
+#else
     if (cfg_load("sage.ini") != 0) {
 	cfg_load("/etc/sage.ini");
     }
+#endif
 
     hardware = 0;
 
@@ -99,6 +104,9 @@ sage_bind (sageContext *ctx, void *win, int width, int height)
 	}
 	return 0;
     }
+#ifdef __MSDOS__
+    win = NULL; /* DOS: no window handle. */
+#endif
     if (ctx == current) {
 	if (win == current->drawable) {
 	    /* nop */
@@ -157,3 +165,31 @@ sage_swap (int interval)
     (void)interval;
     GLCALL(Flush)();
 }
+
+
+#ifdef __MSDOS__
+static struct {
+    const char *name;
+    SageProc proc;
+} functab[] = {
+#define ALIAS(x, y) \
+    { "gl" #x #y, (SageProc)gl##x },
+#include "../../main/alias.h"
+    { "glLockArraysEXT", (SageProc)glLockArraysEXT },
+    { "glUnlockArraysEXT", (SageProc)glUnlockArraysEXT },
+    { "glPolygonOffsetEXT", (SageProc)glPolygonOffsetEXT }
+};
+
+SageProc
+sage_GetProcAddress (const char *procname)
+{
+    const int n = sizeof(functab) / sizeof(functab[0]);
+    int i;
+    for (i = 0; i < n; i++) {
+	if (!strcmp(procname, functab[i].name)) {
+	    return functab[i].proc;
+	}
+    }
+    return NULL;
+}
+#endif

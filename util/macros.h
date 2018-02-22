@@ -2,12 +2,21 @@
 #define MACROS_H_included
 
 
+#ifdef __DJGPP__
+#define SQRT(x)   sqrt(x)
+#define COS(x)    cos(x)
+#define SIN(x)    sin(x)
+#define FABS(x)   fabs(x)
+#define EXP(x)    exp(x)
+#define POW(x, y) pow(x, y)
+#else
 #define SQRT(x)   sqrtf(x)
 #define COS(x)    cosf(x)
 #define SIN(x)    sinf(x)
 #define FABS(x)   fabsf(x)
 #define EXP(x)    expf(x)
 #define POW(x, y) powf(x, y)
+#endif
 
 
 #define LINTERP(T, OUT, IN) ((OUT) + (T) * ((IN) - (OUT)))

@@ -289,6 +289,7 @@ dlist_playback (GLuint real_id)
 		break;
 	    default:
 		gl_assert(0);
+		return;
 	}
 	node += opsize[node->op];
     }
@@ -366,6 +367,7 @@ dlist_destroy (GLuint real_id)
 	    case OP_EOL:
 	    case OP_INVALID:
 		gl_assert(0);
+		return NULL;
 	}
     }
     free(block);
@@ -1373,6 +1375,7 @@ imm_CallLists (GLsizei n, GLenum type, const GLvoid *lists)
 	case GL_4_BYTES:	stride = sizeof(GLbyte) * 4;	break;
 	default:
 	    gl_assert(0);
+	    return;
     }
     while (n--) {
 	list = 0;
@@ -1416,9 +1419,10 @@ imm_ListBase (GLuint base)
 /******************************************************************************
  * XXX used for debug (remove)
  */
-
-
+#if 0
 #include <stdio.h>
+#undef NDEBUG
+#include <assert.h>
 static void
 dlist_print (GLuint real_id)
 {
@@ -1567,9 +1571,11 @@ dlist_print (GLuint real_id)
 		printf("--- glCallList(%d)\n", (node + 1)->i);
 		break;
 	    default:
-		gl_assert(0);
+		printf("--- UNKNOWN DLIST OP(%d)\n", node->op);
+		assert(0);
 	}
 	node += opsize[node->op];
     }
     printf("DLIST END ---\n");
 }
+#endif /* #if 0 */

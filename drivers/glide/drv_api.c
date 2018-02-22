@@ -4,6 +4,7 @@
  */
 
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -63,46 +64,30 @@ void (*drv_copypv) (int vdst, int vsrc);
 void (*drv_interp) (float t, int vdst, int vout, int vin);
 
 
-/*
-char * (FX_CALL *gfGetRegistryOrEnvironmentStringExt) (char *theEntry);
-GrContext_t (FX_CALL *gfSstWinOpenExt) (FxU32 hWnd, GrScreenResolution_t resolution, GrScreenRefresh_t refresh, GrColorFormat_t format, GrOriginLocation_t origin, GrPixelFormat_t pixelformat, int nColBuffers, int nAuxBuffers);
-void (FX_CALL *gfBufferClearExt) (GrColor_t color, GrAlpha_t alpha, FxU32 depth, GrStencil_t stencil);
-void (FX_CALL *gfColorMaskExt) (FxBool r, FxBool g, FxBool b, FxBool a);
-void (FX_CALL *gfStencilFuncExt) (GrCmpFnc_t fnc, GrStencil_t ref, GrStencil_t mask);
-void (FX_CALL *gfStencilMaskExt) (GrStencil_t value);
-void (FX_CALL *gfStencilOpExt) (GrStencilOp_t stencil_fail, GrStencilOp_t depth_fail, GrStencilOp_t depth_pass);
-void (FX_CALL *gfColorCombineExt) (GrCCUColor_t a, GrCombineMode_t a_mode, GrCCUColor_t b, GrCombineMode_t b_mode, GrCCUColor_t c, FxBool c_invert, GrCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfAlphaCombineExt) (GrACUColor_t a, GrCombineMode_t a_mode, GrACUColor_t b, GrCombineMode_t b_mode, GrACUColor_t c, FxBool c_invert, GrACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfTexColorCombineExt) (GrChipID_t tmu, GrTCCUColor_t a, GrCombineMode_t a_mode, GrTCCUColor_t b, GrCombineMode_t b_mode, GrTCCUColor_t c, FxBool c_invert, GrTCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfTexAlphaCombineExt) (GrChipID_t tmu, GrTACUColor_t a, GrCombineMode_t a_mode, GrTACUColor_t b, GrCombineMode_t b_mode, GrTACUColor_t c, FxBool c_invert, GrTACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
-void (FX_CALL *gfConstantColorValueExt) (GrChipID_t tmu, GrColor_t value);
-*/
-
-
 /** Get registry or environment string. */
-char * FX_CALL (*gfGetRegistryOrEnvironmentStringExt) (char *theEntry);
+gfGetRegistryOrEnvironmentStringExt_f gfGetRegistryOrEnvironmentStringExt;
 /** Open hardware context. */
-GrContext_t FX_CALL (*gfSstWinOpenExt) (FxU32 hWnd, GrScreenResolution_t resolution, GrScreenRefresh_t refresh, GrColorFormat_t format, GrOriginLocation_t origin, GrPixelFormat_t pixelformat, int nColBuffers, int nAuxBuffers);
+gfSstWinOpenExt_f gfSstWinOpenExt;
 /** Clear buffer. */
-void FX_CALL (*gfBufferClearExt) (GrColor_t color, GrAlpha_t alpha, FxU32 depth, GrStencil_t stencil);
+gfBufferClearExt_f gfBufferClearExt;
 /** Color mask. */
-void FX_CALL (*gfColorMaskExt) (FxBool r, FxBool g, FxBool b, FxBool a);
+gfColorMaskExt_f gfColorMaskExt;
 /** Stencil function. */
-void FX_CALL (*gfStencilFuncExt) (GrCmpFnc_t fnc, GrStencil_t ref, GrStencil_t mask);
+gfStencilFuncExt_f gfStencilFuncExt;
 /** Stencil mask. */
-void FX_CALL (*gfStencilMaskExt) (GrStencil_t value);
+gfStencilMaskExt_f gfStencilMaskExt;
 /** Stencil op. */
-void FX_CALL (*gfStencilOpExt) (GrStencilOp_t stencil_fail, GrStencilOp_t depth_fail, GrStencilOp_t depth_pass);
+gfStencilOpExt_f gfStencilOpExt;
 /** Color combiner. */
-void FX_CALL (*gfColorCombineExt) (GrCCUColor_t a, GrCombineMode_t a_mode, GrCCUColor_t b, GrCombineMode_t b_mode, GrCCUColor_t c, FxBool c_invert, GrCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfColorCombineExt_f gfColorCombineExt;
 /** Alpha combiner. */
-void FX_CALL (*gfAlphaCombineExt) (GrACUColor_t a, GrCombineMode_t a_mode, GrACUColor_t b, GrCombineMode_t b_mode, GrACUColor_t c, FxBool c_invert, GrACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfAlphaCombineExt_f gfAlphaCombineExt;
 /** Texture color combiner. */
-void FX_CALL (*gfTexColorCombineExt) (GrChipID_t tmu, GrTCCUColor_t a, GrCombineMode_t a_mode, GrTCCUColor_t b, GrCombineMode_t b_mode, GrTCCUColor_t c, FxBool c_invert, GrTCCUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfTexColorCombineExt_f gfTexColorCombineExt;
 /** Texture alpha combiner. */
-void FX_CALL (*gfTexAlphaCombineExt) (GrChipID_t tmu, GrTACUColor_t a, GrCombineMode_t a_mode, GrTACUColor_t b, GrCombineMode_t b_mode, GrTACUColor_t c, FxBool c_invert, GrTACUColor_t d, FxBool d_invert, FxU32 shift, FxBool invert);
+gfTexAlphaCombineExt_f gfTexAlphaCombineExt;
 /** Constant color. */
-void FX_CALL (*gfConstantColorValueExt) (GrChipID_t tmu, GrColor_t value);
+gfConstantColorValueExt_f gfConstantColorValueExt;
 
 
 /**
@@ -263,10 +248,27 @@ findBestRes (int width, int height)
 {
 #define GLIDE_RESOLUTION(w, h) { GR_RESOLUTION_##w##x##h, w, h }
     static int resolutions[][3] = {
+	GLIDE_RESOLUTION(320, 200),
+	GLIDE_RESOLUTION(320, 240),
+	GLIDE_RESOLUTION(512, 384),
+	GLIDE_RESOLUTION(640, 400),
 	GLIDE_RESOLUTION(640, 480),
 	GLIDE_RESOLUTION(800, 600),
 	GLIDE_RESOLUTION(1024, 768),
-	GLIDE_RESOLUTION(1280, 1024)
+	GLIDE_RESOLUTION(1280, 1024),
+	GLIDE_RESOLUTION(1600, 1200),
+	/**/
+	GLIDE_RESOLUTION(400, 300),
+	GLIDE_RESOLUTION(856, 480),
+	GLIDE_RESOLUTION(960, 720),
+	GLIDE_RESOLUTION(1152, 864),
+	GLIDE_RESOLUTION(1280, 960),
+	GLIDE_RESOLUTION(1600, 1024),
+	GLIDE_RESOLUTION(1792, 1344),
+	GLIDE_RESOLUTION(1856, 1392),
+	GLIDE_RESOLUTION(1920, 1440),
+	GLIDE_RESOLUTION(2048, 1536),
+	GLIDE_RESOLUTION(2048, 2048)
     };
     unsigned i;
     for (i = 0; i < sizeof(resolutions) / sizeof(resolutions[0]); i++) {
@@ -436,9 +438,13 @@ sage_init (void)
 	return 0;
     }
 
+#if defined(__MSDOS__)||defined(_WIN32)
+    cfg_load("sage.ini");
+#else
     if (cfg_load("sage.ini") != 0) {
 	cfg_load("/etc/sage.ini");
     }
+#endif
 
     grSstSelect(0);
 
@@ -459,18 +465,18 @@ sage_init (void)
     hwext_pixext = (strstr(str, "PIXEXT") != NULL);
     hwext_combine = (strstr(str, "COMBINE") != NULL);
 
-    *(GrProc *)&gfGetRegistryOrEnvironmentStringExt = grGetProcAddress("grGetRegistryOrEnvironmentStringExt");
-    *(GrProc *)&gfSstWinOpenExt = grGetProcAddress("grSstWinOpenExt");
-    *(GrProc *)&gfBufferClearExt = grGetProcAddress("grBufferClearExt");
-    *(GrProc *)&gfColorMaskExt = grGetProcAddress("grColorMaskExt");
-    *(GrProc *)&gfStencilFuncExt = grGetProcAddress("grStencilFuncExt");
-    *(GrProc *)&gfStencilMaskExt = grGetProcAddress("grStencilMaskExt");
-    *(GrProc *)&gfStencilOpExt = grGetProcAddress("grStencilOpExt");
-    *(GrProc *)&gfColorCombineExt = grGetProcAddress("grColorCombineExt");
-    *(GrProc *)&gfAlphaCombineExt = grGetProcAddress("grAlphaCombineExt");
-    *(GrProc *)&gfTexColorCombineExt = grGetProcAddress("grTexColorCombineExt");
-    *(GrProc *)&gfTexAlphaCombineExt = grGetProcAddress("grTexAlphaCombineExt");
-    *(GrProc *)&gfConstantColorValueExt = grGetProcAddress("grConstantColorValueExt");
+    gfGetRegistryOrEnvironmentStringExt = (gfGetRegistryOrEnvironmentStringExt_f) grGetProcAddress("grGetRegistryOrEnvironmentStringExt");
+    gfSstWinOpenExt = (gfSstWinOpenExt_f) grGetProcAddress("grSstWinOpenExt");
+    gfBufferClearExt = (gfBufferClearExt_f) grGetProcAddress("grBufferClearExt");
+    gfColorMaskExt = (gfColorMaskExt_f) grGetProcAddress("grColorMaskExt");
+    gfStencilFuncExt = (gfStencilFuncExt_f) grGetProcAddress("grStencilFuncExt");
+    gfStencilMaskExt = (gfStencilMaskExt_f) grGetProcAddress("grStencilMaskExt");
+    gfStencilOpExt = (gfStencilOpExt_f) grGetProcAddress("grStencilOpExt");
+    gfColorCombineExt = (gfColorCombineExt_f) grGetProcAddress("grColorCombineExt");
+    gfAlphaCombineExt = (gfAlphaCombineExt_f) grGetProcAddress("grAlphaCombineExt");
+    gfTexColorCombineExt = (gfTexColorCombineExt_f) grGetProcAddress("grTexColorCombineExt");
+    gfTexAlphaCombineExt = (gfTexAlphaCombineExt_f) grGetProcAddress("grTexAlphaCombineExt");
+    gfConstantColorValueExt = (gfConstantColorValueExt_f) grGetProcAddress("grConstantColorValueExt");
 
     current = NULL;
 
@@ -516,7 +522,10 @@ sage_open (int db_flag,
     allow_texuma      = hwext_texuma && !YES("3dfx.disable.texuma");
     allow_texmirror   = hwext_texmirror && !YES("3dfx.disable.texmirror");
     allow_fogcoord    = hwext_fogcoord && !YES("3dfx.disable.fogcoord");
-    allow_32bpt       = (fb_color == 24 && hwext_texfmt) && !YES("3dfx.disable.32bpt");
+    allow_32bpt       = hwext_texfmt && !YES("3dfx.disable.32bpt");
+#if 0 /* FS: only check if we have the ARGB_8888 & co, like Mesa. */
+    if (fb_color != 24) allow_32bpt = 0;
+#endif
     allow_blendsquare = (hardware >= GR_SSTTYPE_Voodoo4) && !YES("3dfx.disable.blendsquare");
     allow_combine     = GL_TRUE && !YES("3dfx.disable.combine");
     allow_multitex    = (getInteger(GR_NUM_TMU) > 1) && !YES("3dfx.disable.multitex");
@@ -634,6 +643,9 @@ sage_bind (sageContext *ctx, void *win, int width, int height)
 	}
 	return 0;
     }
+#ifdef __MSDOS__
+    win = NULL; /* DOS: no window handle. */
+#endif
     if (ctx == current) {
 	if (win == current->drawable) {
 	    /* nop */
@@ -648,14 +660,14 @@ sage_bind (sageContext *ctx, void *win, int width, int height)
     }
 
     if (hwext_pixext) {
-	ctx->gr_ctx = gfSstWinOpenExt((int)win,
+	ctx->gr_ctx = gfSstWinOpenExt((FxU32)win,
 				findBestRes(width, height),
 				GR_REFRESH_60Hz,
 				GR_COLORFORMAT_ABGR,
 				GR_ORIGIN_LOWER_LEFT,
 				ctx->fmt, 2, 1);
     } else if (ctx->fmt == GR_PIXFMT_RGB_565) {
-	ctx->gr_ctx = grSstWinOpen((int)win,
+	ctx->gr_ctx = grSstWinOpen((FxU32)win,
 				findBestRes(width, height),
 				GR_REFRESH_60Hz,
 				GR_COLORFORMAT_ABGR,
@@ -726,3 +738,36 @@ sage_swap (int interval)
     GLCALL(Flush)();
     grBufferSwap(interval);
 }
+
+
+#ifdef __MSDOS__
+static struct {
+    const char *name;
+    SageProc proc;
+} functab[] = {
+#define ALIAS(x, y) \
+    { "gl" #x #y, (SageProc)gl##x },
+#include "../../main/alias.h"
+    { "glLockArraysEXT", (SageProc)glLockArraysEXT },
+    { "glUnlockArraysEXT", (SageProc)glUnlockArraysEXT },
+    { "glPolygonOffsetEXT", (SageProc)glPolygonOffsetEXT }
+};
+
+SageProc
+sage_GetProcAddress (const char *procname)
+{
+    const int n = sizeof(functab) / sizeof(functab[0]);
+    int i;
+    for (i = 0; i < n; i++) {
+	if (!strcmp(procname, functab[i].name)) {
+	    return functab[i].proc;
+	}
+    }
+    return NULL;
+}
+#endif
+
+#ifdef X86
+/* validate structure sizes and member offsets in x86/drv.inc: */
+#include "drvchk.h"
+#endif
