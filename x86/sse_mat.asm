@@ -73,13 +73,13 @@ proc	matrix_mul_vec4_batch_sse
 	mov	ecx, [esp+16]
 	align	16
     .0:
-	MOVUAPS	xmm0, [eax]
+	movaps	xmm0, [eax]
 	prefetchnta	[eax+0x30]
-	MOVUAPS	xmm1, xmm0
+	movaps	xmm1, xmm0
 	add	eax, 16
-	MOVUAPS	xmm2, xmm0
+	movaps	xmm2, xmm0
 	add	edx, 16
-	MOVUAPS	xmm3, xmm0
+	movaps	xmm3, xmm0
 	prefetchnta	[edx+0x20]
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
 	shufps	xmm1, xmm1, SHUF(Y, Y, Y, Y)
@@ -92,7 +92,7 @@ proc	matrix_mul_vec4_batch_sse
 	addps	xmm1, xmm0
 	addps	xmm2, xmm3
 	addps	xmm1, xmm2
-	MOVUAPS	[edx-16], xmm1
+	movaps	[edx-16], xmm1
 	dec	ecx
 	jnz	.0
 	ret
@@ -111,11 +111,11 @@ proc	matrix_mul_vec3_batch_sse
 	mov	ecx, [esp+16]
 	align	16
     .0:
-	MOVUAPS	xmm0, [eax]
+	movaps	xmm0, [eax]
 	prefetchnta	[eax+0x30]
-	MOVUAPS	xmm1, xmm0
+	movaps	xmm1, xmm0
 	add	eax, 16
-	MOVUAPS	xmm2, xmm0
+	movaps	xmm2, xmm0
 	add	edx, 16
 	prefetchnta	[edx+0x20]
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
@@ -127,7 +127,7 @@ proc	matrix_mul_vec3_batch_sse
 	addps	xmm1, xmm0
 	addps	xmm2, xmm7
 	addps	xmm1, xmm2
-	MOVUAPS	[edx-16], xmm1
+	movaps	[edx-16], xmm1
 	dec	ecx
 	jnz	.0
 	ret

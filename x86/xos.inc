@@ -110,13 +110,3 @@
 %endmacro
 
 %endif
-
-;---------------------------------------
-; movaps is broken in DJGPP DXE builds -
-; possibly an issue in the dxe3gen tool.
-;---------------------------------------
-%ifdef BROKEN_MOVAPS
-%define MOVUAPS movups
-%else
-%define MOVUAPS movaps
-%endif

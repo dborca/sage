@@ -52,7 +52,7 @@ proc	sse_clipmask
 	jz	.next_k
 	align	16
     .j_loop:
-	MOVUAPS	xmm2, [esi]
+	movaps	xmm2, [esi]
 	rcpps	xmm0, xmm2
 	push	ebp
 
@@ -78,7 +78,7 @@ proc	sse_clipmask
 	mov	cl, [x86_clip_lut + ecx]
 
 	pop	ebp
-	MOVUAPS	xmm1, xmm2
+	movaps	xmm1, xmm2
 	mov	[ebx], cl
 	or	eax, ecx
 	test	ecx, ecx
@@ -87,7 +87,7 @@ proc	sse_clipmask
 	shufps	xmm0, xmm0, SHUF(W, W, W, W)
 	mulps	xmm2, xmm0
 	movt	xmm2, xmm0
-	MOVUAPS	[ebp], xmm2
+	movaps	[ebp], xmm2
 	align	16
     .next_j:
 	add	esi, 16
