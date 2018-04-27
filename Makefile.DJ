@@ -26,6 +26,9 @@ LDFLAGS =
 LDLIBS = -lm
 AS = nasm
 ASFLAGS = -O2 -fcoff -D__DJGPP__ -Ix86/ -Imain/ --prefix _
+# workaround the sse issue in DXE builds: note that this
+# is only needed for DXE, but not for the static library.
+ASFLAGS+= -DBROKEN_MOVAPS
 AR = ar
 ARFLAGS = crus
 DXE3GEN = dxe3gen

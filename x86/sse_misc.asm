@@ -31,10 +31,10 @@ proc	sse_calc_veyn4
 	mov	ecx, [tnl_vb + TNL_VB_LEN]
 	align	16
     .0:
-	movaps	xmm0, [eax]
-	movaps	xmm1, xmm0
-	movaps	xmm2, xmm0
-	movaps	xmm3, xmm0
+	MOVUAPS	xmm0, [eax]
+	MOVUAPS	xmm1, xmm0
+	MOVUAPS	xmm2, xmm0
+	MOVUAPS	xmm3, xmm0
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
 	shufps	xmm1, xmm1, SHUF(Y, Y, Y, Y)
 	shufps	xmm2, xmm2, SHUF(Z, Z, Z, Z)
@@ -46,19 +46,19 @@ proc	sse_calc_veyn4
 	addps	xmm1, xmm0
 	addps	xmm2, xmm3
 	addps	xmm1, xmm2
-	movaps	[edx], xmm1			;  x  |  y  |  z  |  w
+	MOVUAPS	[edx], xmm1			;  x  |  y  |  z  |  w
 
-	movaps	xmm0, xmm1			;  x  |  y  |  z  |  w
+	MOVUAPS	xmm0, xmm1			;  x  |  y  |  z  |  w
 	mulps	xmm1, xmm1			; x*x | y*y | z*z | w*w
-	movaps	xmm2, xmm1
-	movaps	xmm3, xmm1
+	MOVUAPS	xmm2, xmm1
+	MOVUAPS	xmm3, xmm1
 	shufps	xmm2, xmm2, SHUF(Y, Z, X, W)	; y*y | z*z | x*x | w*w
 	shufps	xmm3, xmm3, SHUF(Z, X, Y, W)	; z*z | x*x | y*y | w*w
 	addps	xmm1, xmm2
 	addps	xmm1, xmm3
 	rsqrtps	xmm1, xmm1
 	mulps	xmm0, xmm1
-	movaps	[edi], xmm0
+	MOVUAPS	[edi], xmm0
 
 	add	eax, 16
 	add	edx, 16
@@ -85,9 +85,9 @@ proc	sse_calc_veyn3
 	mov	ecx, [tnl_vb + TNL_VB_LEN]
 	align	16
     .0:
-	movaps	xmm0, [eax]
-	movaps	xmm1, xmm0
-	movaps	xmm2, xmm0
+	MOVUAPS	xmm0, [eax]
+	MOVUAPS	xmm1, xmm0
+	MOVUAPS	xmm2, xmm0
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
 	shufps	xmm1, xmm1, SHUF(Y, Y, Y, Y)
 	shufps	xmm2, xmm2, SHUF(Z, Z, Z, Z)
@@ -97,19 +97,19 @@ proc	sse_calc_veyn3
 	addps	xmm1, xmm0
 	addps	xmm2, xmm7
 	addps	xmm1, xmm2
-	movaps	[edx], xmm1			;  x  |  y  |  z  |  w
+	MOVUAPS	[edx], xmm1			;  x  |  y  |  z  |  w
 
-	movaps	xmm0, xmm1			;  x  |  y  |  z  |  w
+	MOVUAPS	xmm0, xmm1			;  x  |  y  |  z  |  w
 	mulps	xmm1, xmm1			; x*x | y*y | z*z | w*w
-	movaps	xmm2, xmm1
-	movaps	xmm3, xmm1
+	MOVUAPS	xmm2, xmm1
+	MOVUAPS	xmm3, xmm1
 	shufps	xmm2, xmm2, SHUF(Y, Z, X, W)	; y*y | z*z | x*x | w*w
 	shufps	xmm3, xmm3, SHUF(Z, X, Y, W)	; z*z | x*x | y*y | w*w
 	addps	xmm1, xmm2
 	addps	xmm1, xmm3
 	rsqrtps	xmm1, xmm1
 	mulps	xmm0, xmm1
-	movaps	[edi], xmm0
+	MOVUAPS	[edi], xmm0
 
 	add	eax, 16
 	add	edx, 16
@@ -138,11 +138,11 @@ proc	sse_calc_neye
 %if 0
 	align	16
     .0:
-	movaps	xmm0, [eax]
+	MOVUAPS	xmm0, [eax]
 	prefetchnta	[eax+0x30]
-	movaps	xmm1, xmm0
+	MOVUAPS	xmm1, xmm0
 	add	eax, 16
-	movaps	xmm2, xmm0
+	MOVUAPS	xmm2, xmm0
 	add	edx, 16
 	prefetchnta	[edx+0x20]
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
@@ -153,7 +153,7 @@ proc	sse_calc_neye
 	mulps	xmm2, xmm6
 	addps	xmm1, xmm0
 	addps	xmm1, xmm2
-	movaps	[edx-16], xmm1
+	MOVUAPS	[edx-16], xmm1
 	dec	ecx
 	jnz	.0
 %else
@@ -165,10 +165,10 @@ proc	sse_calc_neye
     .0:
 	test	edi, TNL_NORMAL_BIT
 	jz	.1
-	movaps	xmm0, [eax]
+	MOVUAPS	xmm0, [eax]
 	prefetchnta	[eax+0x30]
-	movaps	xmm1, xmm0
-	movaps	xmm2, xmm0
+	MOVUAPS	xmm1, xmm0
+	MOVUAPS	xmm2, xmm0
 	prefetchnta	[edx+0x30]
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
 	shufps	xmm1, xmm1, SHUF(Y, Y, Y, Y)
@@ -180,7 +180,7 @@ proc	sse_calc_neye
 	addps	xmm1, xmm2
 	align	16
     .1:
-	movaps	[edx], xmm1
+	MOVUAPS	[edx], xmm1
 	add	esi, 4
 	add	eax, 16
 	add	edx, 16
@@ -193,9 +193,9 @@ proc	sse_calc_neye
 	ret
 	align	16
     .2:
-	movaps	xmm0, [eax]
-	movaps	xmm1, xmm0
-	movaps	xmm2, xmm0
+	MOVUAPS	xmm0, [eax]
+	MOVUAPS	xmm1, xmm0
+	MOVUAPS	xmm2, xmm0
 	shufps	xmm0, xmm0, SHUF(X, X, X, X)
 	shufps	xmm1, xmm1, SHUF(Y, Y, Y, Y)
 	shufps	xmm2, xmm2, SHUF(Z, Z, Z, Z)
@@ -206,7 +206,7 @@ proc	sse_calc_neye
 	addps	xmm1, xmm2
 	align	16
     .3:
-	movaps	[edx], xmm1
+	MOVUAPS	[edx], xmm1
 	add	edx, 16
 	dec	ecx
 	jnz	.3
@@ -227,16 +227,16 @@ proc	sse_reflect
 	mov	eax, [tnl_vb + TNL_VB_VEYN]
 	mov	ecx, [tnl_vb + TNL_VB_NEYE]
 	mov	edx, [tnl_vb + TNL_VB_REFL]
-	movaps	xmm5, [f_0010]
-	movaps	xmm6, [f_2222]
+	MOVUAPS	xmm5, [f_0010]
+	MOVUAPS	xmm6, [f_2222]
 	align	16
     .0:
-	movaps	xmm1, [eax]		;    ux     |    uy     |    uz     |    uw
-	movaps	xmm2, [ecx]		;    nx     |    ny     |    nz     |    nw
-	movaps	xmm0, xmm1		;    ux     |    uy     |    uz     |    uw
+	MOVUAPS	xmm1, [eax]		;    ux     |    uy     |    uz     |    uw
+	MOVUAPS	xmm2, [ecx]		;    nx     |    ny     |    nz     |    nw
+	MOVUAPS	xmm0, xmm1		;    ux     |    uy     |    uz     |    uw
 	mulps	xmm1, xmm2		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
-	movaps	xmm3, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
-	movaps	xmm4, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
+	MOVUAPS	xmm3, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
+	MOVUAPS	xmm4, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
 	shufps	xmm3, xmm3, SHUF(Y, Z, X, W)
 	shufps	xmm4, xmm4, SHUF(Z, X, Y, W)
 	addps	xmm1, xmm3
@@ -246,7 +246,7 @@ proc	sse_reflect
 	mulps	xmm1, xmm2
 	subps	xmm1, xmm5
 	subps	xmm0, xmm1
-	movaps	[edx], xmm0
+	MOVUAPS	[edx], xmm0
 
 	add	eax, 16
 	add	ecx, 16
@@ -265,17 +265,17 @@ proc	sse_reflect_mvec
 	mov	eax, [tnl_vb + TNL_VB_VEYN]
 	mov	ecx, [tnl_vb + TNL_VB_NEYE]
 	mov	edx, [tnl_vb + TNL_VB_REFL]
-	movaps	xmm5, [f_0010]
-	movaps	xmm6, [f_2222]
-	movaps	xmm7, [f_h000]
+	MOVUAPS	xmm5, [f_0010]
+	MOVUAPS	xmm6, [f_2222]
+	MOVUAPS	xmm7, [f_h000]
 	align	16
     .0:
-	movaps	xmm1, [eax]		;    ux     |    uy     |    uz     |    uw
-	movaps	xmm2, [ecx]		;    nx     |    ny     |    nz     |    nw
-	movaps	xmm0, xmm1		;    ux     |    uy     |    uz     |    uw
+	MOVUAPS	xmm1, [eax]		;    ux     |    uy     |    uz     |    uw
+	MOVUAPS	xmm2, [ecx]		;    nx     |    ny     |    nz     |    nw
+	MOVUAPS	xmm0, xmm1		;    ux     |    uy     |    uz     |    uw
 	mulps	xmm1, xmm2		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
-	movaps	xmm3, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
-	movaps	xmm4, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
+	MOVUAPS	xmm3, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
+	MOVUAPS	xmm4, xmm1		;   ux*nx   |   uy*ny   |   uz*nz   |   uw*nw
 	shufps	xmm3, xmm3, SHUF(Y, Z, X, W)
 	shufps	xmm4, xmm4, SHUF(Z, X, Y, W)
 	addps	xmm1, xmm3
@@ -286,10 +286,10 @@ proc	sse_reflect_mvec
 	subps	xmm1, xmm5
 	subps	xmm0, xmm1
 
-	movaps	xmm1, xmm0
+	MOVUAPS	xmm1, xmm0
 	mulps	xmm1, xmm1
-	movaps	xmm2, xmm1
-	movaps	xmm3, xmm1
+	MOVUAPS	xmm2, xmm1
+	MOVUAPS	xmm3, xmm1
 	shufps	xmm2, xmm2, SHUF(Y, Z, X, W)
 	shufps	xmm3, xmm3, SHUF(Z, X, Y, W)
 	addps	xmm1, xmm2
@@ -298,7 +298,7 @@ proc	sse_reflect_mvec
 	mulps	xmm1, xmm7
 
 	movt	xmm0, xmm1
-	movaps	[edx], xmm0
+	MOVUAPS	[edx], xmm0
 
 	add	eax, 16
 	add	ecx, 16
