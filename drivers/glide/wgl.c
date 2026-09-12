@@ -36,6 +36,7 @@ PIXELFORMATDESCRIPTOR pfd[] = {
     1,                     /* version number */
     PFD_DRAW_TO_WINDOW |   /* support window */
     PFD_SUPPORT_OPENGL |   /* support OpenGL */
+    PFD_SWAP_COPY |
     PFD_DOUBLEBUFFER,      /* double buffered */
     PFD_TYPE_RGBA,         /* RGBA type */
     16,                    /* color depth */
@@ -51,11 +52,33 @@ PIXELFORMATDESCRIPTOR pfd[] = {
     0,                     /* reserved */
     0, 0, 0                /* layer masks ignored */
 },
-{ 
+{
     sizeof(PIXELFORMATDESCRIPTOR),  /*  size of this pfd */
     1,                     /* version number */
     PFD_DRAW_TO_WINDOW |   /* support window */
     PFD_SUPPORT_OPENGL |   /* support OpenGL */
+    PFD_SWAP_COPY |
+    PFD_DOUBLEBUFFER,      /* double buffered */
+    PFD_TYPE_RGBA,         /* RGBA type */
+    24,                    /* color depth */
+    8, 0, 8, 8, 8, 16,     /* color bits */
+    8,                     /* alpha buffer */
+    24,                    /* shift bit */
+    0,                     /* no accumulation buffer */
+    0, 0, 0, 0,            /* accum bits ignored */
+    24,                    /* z-buffer */
+    8,                     /* stencil buffer */
+    0,                     /* no auxiliary buffer */
+    PFD_MAIN_PLANE,        /* main layer */
+    0,                     /* reserved */
+    0, 0, 0                /* layer masks ignored */
+},
+{
+    sizeof(PIXELFORMATDESCRIPTOR),  /*  size of this pfd */
+    1,                     /* version number */
+    PFD_DRAW_TO_WINDOW |   /* support window */
+    PFD_SUPPORT_OPENGL |   /* support OpenGL */
+    PFD_SWAP_COPY |
     PFD_DOUBLEBUFFER,      /* double buffered */
     PFD_TYPE_RGBA,         /* RGBA type */
     32,                    /* color depth */
@@ -166,10 +189,15 @@ wglChoosePixelFormat (HDC hdc, CONST PIXELFORMATDESCRIPTOR *ppfd)
 {
     int i, numPixelFormats, bestIndex = -1;
     const PIXELFORMATDESCRIPTOR *ppfdBest = NULL;
+    DEVMODE dm;
+
+    /* FS: Choose the best PFD based on our display BPP. */
+    memset(&dm, 0, sizeof(DEVMODE));
+    EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm);
 
     WINLOG((eff, "%s:\n", __FUNCTION__));
 
-    if (ppfd->dwFlags != (ppfd->dwFlags & 
+    if (ppfd->dwFlags != (ppfd->dwFlags &
 				    (
 				    PFD_DRAW_TO_WINDOW |
 				    PFD_DRAW_TO_BITMAP |
@@ -263,12 +291,17 @@ wglChoosePixelFormat (HDC hdc, CONST PIXELFORMATDESCRIPTOR *ppfd)
 	    continue;
 	}
 
-	if (ppfd->cStencilBits && !ppfdCandidate->cStencilBits) {
+	if (ppfd->cStencilBits && !ppfdCandidate->cStencilBits && (dm.dmBitsPerPel == 32)) { /* FS: Stencil buffer only available on 32bpp */
 	    if (!YES("wgl.ignore.stencilbuffer")) continue;
 	}
 
 	if (ppfd->cAuxBuffers && !ppfdCandidate->cAuxBuffers) {
 	    continue;
+	}
+
+	/* FS: Choose the best PFD based on our display BPP. */
+	if ((dm.dmBitsPerPel > 0) && (ppfdCandidate->cColorBits != dm.dmBitsPerPel)) {
+		continue;
 	}
 
 	/*
