@@ -226,7 +226,7 @@ imm_BindTexture (GLenum target, GLuint texture)
 	if (list_at_end(ctx_tex_obj_list, ptr)) {
 	    ptr = tex_fill_object(NULL);
 	    if (ptr == NULL) {
-		gl_error(NULL, GL_INVALID_VALUE, "out of memory\n");
+		gl_error(NULL, GL_OUT_OF_MEMORY, "out of memory\n");
 		return;
 	    }
 	    ptr->name = texture;
